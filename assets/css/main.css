@@ -1083,6 +1083,14 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 40%);
 }
 
+#cake-count::after {
+  content: "+"; 
+}
+
+#satisfaction-count::after{
+  content: "/5";
+}
+
 /*--------------------------------------------------------------
 # Menu Section
 --------------------------------------------------------------*/
