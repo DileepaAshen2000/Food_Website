@@ -178,7 +178,10 @@
                         // Wait a brief moment to ensure DOM is ready
                         setTimeout(() => {
                         if (typeof PureCounter !== 'undefined') {
-                            new PureCounter();
+                            new PureCounter({
+                                decimal:true,
+                                separator: true
+                            });
                         } else {
                             console.warn('PureCounter not loaded yet');
                         }
