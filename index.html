@@ -172,25 +172,29 @@
                             initEventsSwiper();
                         }
 
-                        // Initialize Gallery components
-                        if (component.id === 'gallery-container') {
-                            initGallerySwiper();
-                            initGalleryLightbox();
-                        }
 
-                        // Initialize PureCounter specifically for the stats section
-                        if (component.id === 'stats-container') {
-                            // Wait a brief moment to ensure DOM is ready
-                            setTimeout(() => {
-                                if (typeof PureCounter !== 'undefined') {
-                                    new PureCounter();
-                                } else {
-                                    console.warn('PureCounter not loaded yet');
-                                }
-                            }, 100);
+                    // Initialize Gallery components
+                    if (component.id === 'gallery-container') {
+                    initGallerySwiper();
+                    initGalleryLightbox();
+                    }
+
+                    // Initialize PureCounter specifically for the stats section
+                    if (component.id === 'stats-container') {
+                        // Wait a brief moment to ensure DOM is ready
+                        setTimeout(() => {
+                        if (typeof PureCounter !== 'undefined') {
+                            new PureCounter({
+                                decimal:true,
+                                separator: true
+                            });
+                        } else {
+                            console.warn('PureCounter not loaded yet');
                         }
-                    })
-                    .catch(error => console.error('Error loading component:', error));
+                        }, 100);
+                    }
+                })
+                .catch(error => console.error('Error loading component:', error));
             }));
 
             // Initialize other plugins
