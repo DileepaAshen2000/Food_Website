@@ -233,10 +233,10 @@ h6 {
   line-height: 1;
 }
 
-.header .logo img {
+/* .header .logo img {
   max-height: 36px;
   margin-right: 8px;
-}
+} */
 
 .header .logo h1 {
   font-size: 30px;
@@ -269,10 +269,6 @@ h6 {
 }
 
 @media (max-width: 1200px) {
-  .header .logo {
-    order: 1;
-  }
-
   .header .btn-getstarted {
     order: 2;
     margin: 0 15px 0 0;
