@@ -28,6 +28,47 @@
 
     <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
+    <!-- CSS for Sidebar -->
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px; /* Hidden initially */
+            width: 250px;
+            height: 100%;
+            background: #333;
+            color: white;
+            padding-top: 60px;
+            transition: 0.3s;
+            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+        .sidebar ul li a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 
     <!-- =======================================================
     * Template Name: Yummy
@@ -43,46 +84,64 @@
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-                <!-- Uncomment the line below if you also wish to use an image logo -->
-                <!-- <img src="assets/img/logo.png" alt=""> -->
-                <h1 class="sitename">Yummy</h1>
-                <span>.</span>
-            </a>
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <!-- <img src="assets/img/mensa_logo.png" alt=""> -->
+            <img src="assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
+            <h1 class="sitename">Mensa</h1>
+            <span>.</span>
+        </a>
 
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="#hero" class="active">Home<br></a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#menu">Menu</a></li>
-                    <li><a href="#events">Events</a></li>
-                    <li><a href="#chefs">Chefs</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li class="dropdown"><a href="#"><span>Dropdown</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="#">Dropdown 1</a></li>
-                            <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
-                                        class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Dropdown 1</a></li>
-                                    <li><a href="#">Deep Dropdown 2</a></li>
-                                    <li><a href="#">Deep Dropdown 3</a></li>
-                                    <li><a href="#">Deep Dropdown 4</a></li>
-                                    <li><a href="#">Deep Dropdown 5</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Dropdown 2</a></li>
-                            <li><a href="#">Dropdown 3</a></li>
-                            <li><a href="#">Dropdown 4</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
+        <nav id="navmenu" class="navmenu">
+            <ul>
+            <li><a href="#hero" class="active">Home<br></a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <div class="d-xl-none">
+                <li class="dropdown"><a href="#"><span>Account</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="#">profile</a></li>
+                        <!-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                            <li><a href="#">Deep Dropdown 1</a></li>
+                            <li><a href="#">Deep Dropdown 2</a></li>
+                            <li><a href="#">Deep Dropdown 3</a></li>
+                            <li><a href="#">Deep Dropdown 4</a></li>
+                            <li><a href="#">Deep Dropdown 5</a></li>
+                            </ul>
+                        </li> -->
+                        <li><a href="#">Change Password</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </li>
+                <div class="d-flex p-4 justify-content-between align-content-center">
+                    <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+                    <a class="btn-getstarted" href="index.html#book-a-table">Logout</a>
+                </div>
+            </div>
+            
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
 
-            <a class="btn-getstarted" href="index.html#book-a-table">Book a Table</a>
+        <div class="d-none d-xl-flex align-items-center justify-content-center">
+            <!-- <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px;"></i> -->
+            <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;" id="account-icon"></i>
+            <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+        </div>
+        
+        <!-- Sidebar Account Options (Initially Hidden) -->
+        <div id="sidebar" class="sidebar">
+            <button class="close-btn" onclick="toggleSidebar()">×</button>
+            <ul>
+                <li><a href="#"><i class="bi bi-person-fill"></i> Profile</a></li>
+                <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
+                <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            </ul>
+        </div>
 
         </div>
     </header>
@@ -139,6 +198,17 @@
     <div id="preloader"></div>
 
     <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.right === "-250px") {
+                sidebar.style.right = "0"; // Show sidebar
+            } else {
+                sidebar.style.right = "-250px"; // Hide sidebar
+            }
+        }
+        // Open sidebar when clicking the account icon
+        document.getElementById("account-icon").addEventListener("click", toggleSidebar);
+            
         async function loadComponents() {
             const components = [
                 { id: 'hero-container', file: 'assets/components/hero.html' },
