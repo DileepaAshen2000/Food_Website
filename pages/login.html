@@ -138,7 +138,7 @@
         <form action="#">
             <input type="email" placeholder="Email" required>
             <input type="password" placeholder="Password" required>
-            <a href="#">Forgot password?</a>
+            <a href="#" onclick="showForgotPassword()">Forgot password?</a>
             <input type="submit" class="button" value="Login">
         </form>
         <div class="toggle-text">
@@ -159,11 +159,41 @@
             Already have an account? <label for="check" onclick="toggleForms()">Login</label>
         </div>
     </div>
+
+    <div class="form forgot-password" id="forgotPasswordForm">
+        <header>Forgot Password</header>
+        <form action="#">
+            <input type="email" placeholder="Enter your email" required>
+            <input type="submit" class="button" value="Reset Password">
+        </form>
+        <div class="toggle-text">
+            Remember Password? <label onclick="showLogin()">Login</label>
+        </div>
+    </div>
+
 </section>
 
 <script>
     function toggleForms() {
         document.getElementById('loginForm').classList.toggle('active');
         document.getElementById('signupForm').classList.toggle('active');
+    }
+
+    function toggleForms() {
+        document.getElementById('loginForm').classList.toggle('active');
+        document.getElementById('signupForm').classList.toggle('active');
+        document.getElementById('forgotPasswordForm').classList.remove('active');
+    }
+
+    function showForgotPassword() {
+        document.getElementById('loginForm').classList.remove('active');
+        document.getElementById('signupForm').classList.remove('active');
+        document.getElementById('forgotPasswordForm').classList.add('active');
+    }
+
+    function showLogin() {
+        document.getElementById('forgotPasswordForm').classList.remove('active');
+        document.getElementById('signupForm').classList.remove('active');
+        document.getElementById('loginForm').classList.add('active');
     }
 </script>
