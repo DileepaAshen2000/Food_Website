@@ -130,12 +130,91 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function toggleForms() {
+            document.getElementById('loginForm').classList.toggle('active');
+            document.getElementById('signupForm').classList.toggle('active');
+            document.getElementById('forgotPasswordForm').classList.remove('active');
+        }
+
+        function showForgotPassword() {
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('signupForm').classList.remove('active');
+            document.getElementById('forgotPasswordForm').classList.add('active');
+        }
+
+        function showLogin() {
+            document.getElementById('forgotPasswordForm').classList.remove('active');
+            document.getElementById('signupForm').classList.remove('active');
+            document.getElementById('loginForm').classList.add('active');
+        }
+
+        window.toggleForms = toggleForms;
+        window.showForgotPassword = showForgotPassword;
+        window.showLogin = showLogin;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const signupForm = document.getElementById("signupFormElement");
+            signupForm.addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const fullname = signupForm.querySelector("input[name='fullname']").value;
+                const email = signupForm.querySelector("input[name='email']").value;
+                const password = signupForm.querySelector("input[name='password']").value;
+                const confirmPassword = signupForm.querySelector("input[name='confirmPassword']").value;
+
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+
+                try {
+                    const response = await axios.post("http://localhost:3000/api/auth/signup", {
+                        fullname,
+                        email,
+                        password
+                    });
+
+                    if (response.data.status) {
+                        alert("Signup successful!");
+                        showLogin();
+                    } else {
+                        alert("Signup failed: " + response.data.message);
+                    }
+                } catch (error) {
+                    alert("Signup error: " + (error.response?.data?.error || error.message));
+                }
+            });
+
+            document.getElementById("loginFormElement").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const email = e.target.querySelector('input[type="email"]').value;
+                const password = e.target.querySelector('input[type="password"]').value;
+
+                login(email, password)
+                    .then(() => alert("Login successful!"))
+                    .catch((error) => alert("Login failed: " + error.message));
+            });
+
+            document.getElementById("forgotPasswordFormElement").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const email = e.target.querySelector('input[type="email"]').value;
+
+                resetPassword(email)
+                    .then(() => alert("Password reset email sent!"))
+                    .catch((error) => alert("Error: " + error.message));
+            });
+        });
+    </script>
 </head>
 <section class="login-section max-width-full lg:max-width-0.5" id="login">
     <input type="checkbox" id="check">
+
+    <!-- Login Form -->
     <div class="form login active" id="loginForm">
         <header>Login</header>
-        <form action="#">
+        <form id="loginFormElement">
             <input type="email" placeholder="Email" required>
             <input type="password" placeholder="Password" required>
             <a href="#" onclick="showForgotPassword()">Forgot password?</a>
@@ -146,21 +225,25 @@
         </div>
     </div>
 
+    <!-- Signup Form -->
     <div class="form registration" id="signupForm">
         <header>Signup</header>
-        <form action="#">
-            <input type="Name" placeholder="Name" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Create Password" required>
-            <input type="password" placeholder="Confirm Password" required>
+        <form id="signupFormElement">
+            <input type="text" name="fullname" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Create Password" required>
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
             <input type="submit" class="button" value="Signup">
         </form>
+
         <div class="toggle-text">
             Already have an account? <label for="check" onclick="toggleForms()">Login</label>
         </div>
     </div>
 
-    <div class="form forgot-password" id="forgotPasswordForm">
+
+    <!-- Forgot Password Form -->
+    <div class="form forgot-password" id="forgotPasswordFormElement">
         <header>Forgot Password</header>
         <form action="#">
             <input type="email" placeholder="Enter your email" required>
@@ -172,28 +255,3 @@
     </div>
 
 </section>
-
-<script>
-    function toggleForms() {
-        document.getElementById('loginForm').classList.toggle('active');
-        document.getElementById('signupForm').classList.toggle('active');
-    }
-
-    function toggleForms() {
-        document.getElementById('loginForm').classList.toggle('active');
-        document.getElementById('signupForm').classList.toggle('active');
-        document.getElementById('forgotPasswordForm').classList.remove('active');
-    }
-
-    function showForgotPassword() {
-        document.getElementById('loginForm').classList.remove('active');
-        document.getElementById('signupForm').classList.remove('active');
-        document.getElementById('forgotPasswordForm').classList.add('active');
-    }
-
-    function showLogin() {
-        document.getElementById('forgotPasswordForm').classList.remove('active');
-        document.getElementById('signupForm').classList.remove('active');
-        document.getElementById('loginForm').classList.add('active');
-    }
-</script>
