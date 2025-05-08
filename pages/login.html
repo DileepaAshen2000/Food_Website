@@ -131,7 +131,25 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
     <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpAmPGgRt3gtjTAHOldZKdj-_iAd6IQag",
+            authDomain: "mensa-foods.firebaseapp.com",
+            databaseURL: "https://mensa-foods-default-rtdb.firebaseio.com",
+            projectId: "mensa-foods",
+            storageBucket: "mensa-foods.firebasestorage.app",
+            messagingSenderId: "397172133190",
+            appId: "1:397172133190:web:e8df9ff4c89de623e8a947"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Toggle Functions
         function toggleForms() {
             document.getElementById('loginForm').classList.toggle('active');
             document.getElementById('signupForm').classList.toggle('active');
@@ -192,7 +210,7 @@
                 const email = e.target.querySelector('input[type="email"]').value;
                 const password = e.target.querySelector('input[type="password"]').value;
 
-                login(email, password)
+                auth.signInWithEmailAndPassword(email, password)
                     .then(() => alert("Login successful!"))
                     .catch((error) => alert("Login failed: " + error.message));
             });
@@ -201,13 +219,14 @@
                 e.preventDefault();
                 const email = e.target.querySelector('input[type="email"]').value;
 
-                resetPassword(email)
+                auth.sendPasswordResetEmail(email)
                     .then(() => alert("Password reset email sent!"))
                     .catch((error) => alert("Error: " + error.message));
             });
         });
     </script>
 </head>
+
 <section class="login-section max-width-full lg:max-width-0.5" id="login">
     <input type="checkbox" id="check">
 
@@ -243,9 +262,9 @@
 
 
     <!-- Forgot Password Form -->
-    <div class="form forgot-password" id="forgotPasswordFormElement">
+    <div class="form forgot-password" id="forgotPasswordForm">
         <header>Forgot Password</header>
-        <form action="#">
+        <form id="forgotPasswordFormElement">
             <input type="email" placeholder="Enter your email" required>
             <input type="submit" class="button" value="Reset Password">
         </form>
