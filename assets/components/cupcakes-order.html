@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Cupcakes | Mensa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .hero {
+      background-image: url('assets/img/cupcake-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 60px 0;
+      color: rgb(18, 16, 16);
+      text-align: center;
+    }
+
+    .gallery img {
+      object-fit: cover;
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .form-section {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      margin: 20px 0;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .order-card {
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: #f8f9fa;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .order-total {
+      font-weight: bold;
+      border-top: 1px solid #dee2e6;
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .flavor-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .flavor-selector select, 
+    .flavor-selector input {
+      flex: 1 1 150px;
+      min-width: 0;
+    }
+
+    .flavor-selector button {
+      flex: 0 0 auto;
+    }
+
+    .btn-add {
+      white-space: nowrap;
+    }
+
+    .btn-place-order {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        padding: 80px 0;
+      }
+      
+      .gallery img {
+        height: 250px;
+      }
+      
+      .form-section {
+        padding: 40px;
+      }
+      
+      .order-item {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .flavor-selector select, 
+      .flavor-selector input {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold">Custom Cupcake Orders</h1>
+      <p class="lead">Perfect for Birthdays, Weddings & Special Events</p>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="container py-4">
+    <h2 class="text-center mb-3">Our Cupcake Varieties</h2>
+    <div class="row g-3 gallery">
+      <div class="col-6 col-md-3">
+        <img src="assets/img/cupcake1.jpg" alt="Chocolate" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">Chocolate</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="assets/img/cupcake2.jpg" alt="Vanilla" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">Vanilla</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="assets/img/cupcake3.jpg" alt="Coffee" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">Coffee</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="assets/img/cupcake4.jpg" alt="Red Velvet" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">Red Velvet</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order Form -->
+  <section class="container pb-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="form-section">
+          <h3 class="mb-3 text-center">Place Your Cupcake Order</h3>
+          
+          <!-- Customer Information -->
+          <div class="mb-3">
+            <h5 class="mb-2">Customer Information</h5>
+            <div class="mb-2">
+              <label for="name" class="form-label">Full Name *</label>
+              <input type="text" id="name" name="name" required class="form-control" />
+            </div>
+            <div class="mb-2">
+              <label for="email" class="form-label">Email *</label>
+              <input type="email" id="email" name="email" required class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number *</label>
+              <input type="tel" id="phone" name="phone" required class="form-control" />
+            </div>
+          </div>
+
+          <!-- Cupcake Selection -->
+          <div class="mb-3">
+            <h5 class="mb-2">Select Cupcake Flavors</h5>
+            <div class="flavor-selector">
+              <select id="flavorSelect" class="form-select">
+                <option value="" disabled selected>Select Flavor</option>
+                <option value="Chocolate">Chocolate (Rs120.00)</option>
+                <option value="Vanilla">Vanilla (Rs120.00)</option>
+                <option value="Coffee">Coffee (Rs120.00)</option>
+                <option value="nutella">Nutella (Rs120.00)</option>
+              </select>
+              
+              <select id="quantitySelect" class="form-select">
+                <option value="" disabled selected>Select Quantity</option>
+                <option value="1">1</option>
+                <option value="6">6</option>
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="custom">Custom</option>
+              </select>
+              
+              <input type="number" id="customQuantity" class="form-control" placeholder="Enter quantity" style="display: none;" min="1">
+              
+              <button type="button" class="btn btn-primary btn-add" onclick="addToOrder()">
+                <i class="bi bi-plus"></i> Add
+              </button>
+            </div>
+          </div>
+
+          <!-- Order Summary Card -->
+          <div class="mb-3">
+            <h5 class="mb-2">Your Order</h5>
+            <div id="orderCard" class="order-card" style="display: none;">
+              <div id="orderItems"></div>
+              <div class="order-total">
+                Total: Rs<span id="orderTotal">0.00</span>
+              </div>
+            </div>
+            <div id="emptyOrderMessage" class="text-muted">
+              Your order is empty. Please add cupcakes above.
+            </div>
+          </div>
+
+          <!-- Additional Details -->
+          <div class="mb-3">
+            <h5 class="mb-2">Additional Details</h5>
+            <div class="mb-2">
+              <label for="specialInstructions" class="form-label">Special Instructions</label>
+              <textarea id="specialInstructions" class="form-control" rows="2" 
+                placeholder="Allergies, decoration requests, etc."></textarea>
+            </div>
+          </div>
+
+          <!-- Delivery Date -->
+          <div class="mb-4">
+            <label for="deliveryDate" class="form-label">Preferred Pickup/Delivery Date *</label>
+            <input type="date" id="deliveryDate" name="deliveryDate" required class="form-control" />
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4 py-2">Submit Order</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Mensa. All rights reserved.
+  </footer>
+
+  <script>
+    const priceMap = {
+      "Chocolate": 120,
+      "Vanilla": 120,
+      "Coffee": 120,
+      "nutella": 120
+    };
+
+    let orderItems = [];
+    let totalAmount = 0;
+
+    // Show/hide custom quantity input
+    document.getElementById('quantitySelect').addEventListener('change', function() {
+      const customQtyInput = document.getElementById('customQuantity');
+      customQtyInput.style.display = this.value === 'custom' ? 'block' : 'none';
+      if (this.value !== 'custom') customQtyInput.value = '';
+    });
+
+    function addToOrder() {
+      const flavorSelect = document.getElementById('flavorSelect');
+      const quantitySelect = document.getElementById('quantitySelect');
+      const customQuantity = document.getElementById('customQuantity');
+      
+      const flavor = flavorSelect.value;
+      let quantity = quantitySelect.value;
+      
+      if (quantity === 'custom') {
+        quantity = customQuantity.value;
+      }
+      
+      if (!flavor) {
+        alert('Please select a flavor');
+        return;
+      }
+      
+      if (!quantity || quantity <= 0) {
+        alert('Please enter a valid quantity');
+        return;
+      }
+      
+      quantity = parseInt(quantity);
+      const price = priceMap[flavor];
+      const itemTotal = quantity * price;
+      
+      // Add to order items array
+      orderItems.push({
+        flavor,
+        quantity,
+        price,
+        itemTotal
+      });
+      
+      // Update total
+      totalAmount += itemTotal;
+      
+      // Update UI
+      updateOrderCard();
+      
+      // Reset form
+      flavorSelect.selectedIndex = 0;
+      quantitySelect.selectedIndex = 0;
+      customQuantity.style.display = 'none';
+      customQuantity.value = '';
+    }
+
+    function updateOrderCard() {
+      const orderItemsDiv = document.getElementById('orderItems');
+      const orderTotalSpan = document.getElementById('orderTotal');
+      const orderCard = document.getElementById('orderCard');
+      const emptyOrderMessage = document.getElementById('emptyOrderMessage');
+      
+      if (orderItems.length === 0) {
+        orderCard.style.display = 'none';
+        emptyOrderMessage.style.display = 'block';
+        return;
+      }
+      
+      // Clear existing items
+      orderItemsDiv.innerHTML = '';
+      
+      // Add each item
+      orderItems.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'order-item';
+        itemDiv.innerHTML = `
+          <span>${item.quantity}x ${item.flavor} @ $${item.price.toFixed(2)}</span>
+          <span>$${item.itemTotal.toFixed(2)} <button class="btn btn-sm btn-outline-danger" onclick="removeItem(${index})"><i class="bi bi-trash"></i></button></span>
+        `;
+        orderItemsDiv.appendChild(itemDiv);
+      });
+      
+      // Update total
+      orderTotalSpan.textContent = totalAmount.toFixed(2);
+      
+      // Show card
+      orderCard.style.display = 'block';
+      emptyOrderMessage.style.display = 'none';
+    }
+
+    function removeItem(index) {
+      // Subtract from total
+      totalAmount -= orderItems[index].itemTotal;
+      
+      // Remove from array
+      orderItems.splice(index, 1);
+      
+      // Update UI
+      updateOrderCard();
+    }
+
+    function placeOrder() {
+      if (orderItems.length === 0) {
+        alert('Please add at least one item to your order');
+        return;
+      }
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const deliveryDate = document.getElementById('deliveryDate').value;
+      
+      if (!name || !email || !phone || !deliveryDate) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // Here you would typically send the order to your backend
+      // For now we'll just show a confirmation
+      alert(`Order placed successfully!\nTotal: $${totalAmount.toFixed(2)}\nWe'll contact you to confirm details.`);
+      
+      // Reset form
+      orderItems = [];
+      totalAmount = 0;
+      updateOrderCard();
+      document.querySelector('form').reset();
+    }
+
+    // Set minimum date to today
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('deliveryDate').min = today;
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

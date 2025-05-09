@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Savory Platters | Mensa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/img/savory-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 80px 0;
+      color: white;
+      text-align: center;
+    }
+
+    .gallery img {
+      object-fit: cover;
+      width: 100%;
+      height: 250px;
+      border-radius: 10px;
+    }
+
+    .form-section {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .menu-category {
+      margin-bottom: 30px;
+    }
+
+    .menu-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-name {
+      font-weight: 600;
+    }
+
+    .item-price {
+      color: #e67e22;
+      font-weight: 600;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity-control input {
+      width: 60px;
+      text-align: center;
+      margin: 0 10px;
+    }
+
+    .terms-note {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold">Order Savory Platters</h1>
+      <p class="lead">Delicious meals for any occasion</p>
+    </div>
+  </section>
+
+  <!-- Menu Categories -->
+  <section class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="form-section">
+          <h3 class="mb-4 text-center">Our Savory Menu</h3>
+          
+          <form action="submit-order.php" method="POST">
+            <!-- Customer Info -->
+            <div class="row mb-4">
+              <div class="col-md-4 mb-3">
+                <label for="name" class="form-label">Full Name *</label>
+                <input type="text" id="name" name="name" required class="form-control" />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input type="email" id="email" name="email" required class="form-control" />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="phone" class="form-label">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required class="form-control" />
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="date" class="form-label">Preferred Delivery Date *</label>
+              <input type="date" id="date" name="date" required class="form-control" />
+            </div>
+
+            <!-- Cup Cakes -->
+            <div class="menu-category">
+              <h5 class="mb-3">Cup Cakes</h5>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Vanilla</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('cupcake-vanilla', -1)">-</button>
+                      <input type="number" id="cupcake-vanilla" name="cupcake-vanilla" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('cupcake-vanilla', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Chocolate</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('cupcake-chocolate', -1)">-</button>
+                      <input type="number" id="cupcake-chocolate" name="cupcake-chocolate" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('cupcake-chocolate', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Coffee</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('cupcake-coffee', -1)">-</button>
+                      <input type="number" id="cupcake-coffee" name="cupcake-coffee" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('cupcake-coffee', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bento Cake -->
+            <div class="menu-category">
+              <h5 class="mb-3">Bento Cake</h5>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Chocolate</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('bento-chocolate', -1)">-</button>
+                      <input type="number" id="bento-chocolate" name="bento-chocolate" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('bento-chocolate', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Coffee</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('bento-coffee', -1)">-</button>
+                      <input type="number" id="bento-coffee" name="bento-coffee" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('bento-coffee', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Biriyani -->
+            <div class="menu-category">
+              <h5 class="mb-3">Biriyani</h5>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Put Biriyani - Chicken</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-put-chicken', -1)">-</button>
+                      <input type="number" id="biriyani-put-chicken" name="biriyani-put-chicken" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-put-chicken', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Biriyani Sawan - Egg</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-sawan-egg', -1)">-</button>
+                      <input type="number" id="biriyani-sawan-egg" name="biriyani-sawan-egg" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-sawan-egg', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Mensa Special Biriyani - Prawna/Fish</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-special-seafood', -1)">-</button>
+                      <input type="number" id="biriyani-special-seafood" name="biriyani-special-seafood" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-special-seafood', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Mensa Special Biriyani - Vegetable</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-special-veg', -1)">-</button>
+                      <input type="number" id="biriyani-special-veg" name="biriyani-special-veg" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('biriyani-special-veg', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fried Rice -->
+            <div class="menu-category">
+              <h5 class="mb-3">Fried Rice</h5>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Mensa Special Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-special', -1)">-</button>
+                      <input type="number" id="friedrice-special" name="friedrice-special" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-special', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Chicken Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-chicken', -1)">-</button>
+                      <input type="number" id="friedrice-chicken" name="friedrice-chicken" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-chicken', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Egg Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-egg', -1)">-</button>
+                      <input type="number" id="friedrice-egg" name="friedrice-egg" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-egg', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Vegetable Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-veg', -1)">-</button>
+                      <input type="number" id="friedrice-veg" name="friedrice-veg" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-veg', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Sausage Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-sausage', -1)">-</button>
+                      <input type="number" id="friedrice-sausage" name="friedrice-sausage" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-sausage', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Sea Food Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-seafood', -1)">-</button>
+                      <input type="number" id="friedrice-seafood" name="friedrice-seafood" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-seafood', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Mix Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-mix', -1)">-</button>
+                      <input type="number" id="friedrice-mix" name="friedrice-mix" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-mix', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Set Menu Fried Rice</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-setmenu', -1)">-</button>
+                      <input type="number" id="friedrice-setmenu" name="friedrice-setmenu" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('friedrice-setmenu', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nasi Goorug -->
+            <div class="menu-category">
+              <h5 class="mb-3">Nasi Goorug</h5>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Chicken Nasi Goorug</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-chicken', -1)">-</button>
+                      <input type="number" id="nasi-chicken" name="nasi-chicken" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-chicken', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Egg Nasi Goorug</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-egg', -1)">-</button>
+                      <input type="number" id="nasi-egg" name="nasi-egg" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-egg', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Vegetable Nasi Goorug</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-veg', -1)">-</button>
+                      <input type="number" id="nasi-veg" name="nasi-veg" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-veg', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Sausage Nasi Goorug</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-sausage', -1)">-</button>
+                      <input type="number" id="nasi-sausage" name="nasi-sausage" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-sausage', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Sea Food Nasi Goorug</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-seafood', -1)">-</button>
+                      <input type="number" id="nasi-seafood" name="nasi-seafood" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-seafood', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Mix Nasi Goorug</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-mix', -1)">-</button>
+                      <input type="number" id="nasi-mix" name="nasi-mix" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('nasi-mix', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kottu -->
+            <div class="menu-category">
+              <h5 class="mb-3">Kottu</h5>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Regular Kottu</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-regular', -1)">-</button>
+                      <input type="number" id="kottu-regular" name="kottu-regular" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-regular', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Dolphin Kottu</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-dolphin', -1)">-</button>
+                      <input type="number" id="kottu-dolphin" name="kottu-dolphin" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-dolphin', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">String Hopper Kottu</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-stringhopper', -1)">-</button>
+                      <input type="number" id="kottu-stringhopper" name="kottu-stringhopper" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-stringhopper', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Mensa Special Kottu</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-special', -1)">-</button>
+                      <input type="number" id="kottu-special" name="kottu-special" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-special', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Mix Kottu</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-mix', -1)">-</button>
+                      <input type="number" id="kottu-mix" name="kottu-mix" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('kottu-mix', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pasta -->
+            <div class="menu-category">
+              <h5 class="mb-3">Pasta</h5>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Regular Pasta</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('pasta-regular', -1)">-</button>
+                      <input type="number" id="pasta-regular" name="pasta-regular" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('pasta-regular', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Vegetable Pasta</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('pasta-veg', -1)">-</button>
+                      <input type="number" id="pasta-veg" name="pasta-veg" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('pasta-veg', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="item-name">Cheese Pasta</div>
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <div class="item-price">Rs. 0.00</div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="quantity-control">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('pasta-cheese', -1)">-</button>
+                      <input type="number" id="pasta-cheese" name="pasta-cheese" value="0" min="0" class="form-control form-control-sm">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adjustQuantity('pasta-cheese', 1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="menu-item">
+                <div class="row align-items-center">
+                  <div class

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Kottu | Mensa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .hero {
+      background-image: url('https://images.unsplash.com/photo-1601050690123-7248c0a5f5d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      padding: 80px 0;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .gallery img {
+      object-fit: cover;
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03);
+    }
+
+    .form-section {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      margin: 20px 0;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .order-card {
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: #f8f9fa;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .order-total {
+      font-weight: bold;
+      border-top: 1px solid #dee2e6;
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .kottu-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .kottu-selector select, 
+    .kottu-selector input {
+      flex: 1 1 150px;
+      min-width: 0;
+    }
+
+    .kottu-selector button {
+      flex: 0 0 auto;
+    }
+
+    .btn-add {
+      white-space: nowrap;
+    }
+
+    .btn-place-order {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+    }
+
+    .kottu-description {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .kottu-type {
+      font-weight: bold;
+      color: #d35400;
+    }
+
+    .cheese-options {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        padding: 100px 0;
+      }
+      
+      .gallery img {
+        height: 250px;
+      }
+      
+      .form-section {
+        padding: 40px;
+      }
+      
+      .order-item {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .kottu-selector select, 
+      .kottu-selector input {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <h1 class="display-4 fw-bold">Authentic Sri Lankan Kottu</h1>
+      <p class="lead">Chopped roti stir-fried with fresh ingredients and aromatic spices</p>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="container py-4">
+    <h2 class="text-center mb-3">Our Kottu Varieties</h2>
+    <div class="row g-3 gallery">
+      <div class="col-6 col-md-3">
+        <img src="https://images.unsplash.com/photo-1601050690123-7248c0a5f5d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Regular Kottu" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">Regular Kottu</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Dolphin Kottu" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">Dolphin Kottu</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="String Hopper Kottu" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">String Hopper Kottu</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="https://images.unsplash.com/photo-1601050690123-7248c0a5f5d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mensa Special Kottu" class="img-fluid shadow-sm">
+        <p class="text-center mt-2">Mensa Special Kottu</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Description Section -->
+  <section class="container py-4">
+    <div class="kottu-description">
+      <h3 class="text-center mb-4">About Our Kottu</h3>
+      <p>Kottu is Sri Lanka's most popular street food, made by chopping and stir-frying flatbread (roti) with vegetables, eggs, meat, and a blend of aromatic spices. Our kottu is prepared fresh to order with authentic flavors.</p>
+      
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h5><span class="kottu-type">Regular Kottu:</span></h5>
+          <p>The classic version made with chopped godamba roti, vegetables, eggs, and your choice of protein.</p>
+          
+          <h5><span class="kottu-type">Dolphin Kottu:</span></h5>
+          <p>A special version where the roti is cut into thin strips resembling dolphin fins, with extra egg and vegetables.</p>
+        </div>
+        <div class="col-md-6">
+          <h5><span class="kottu-type">String Hopper Kottu:</span></h5>
+          <p>Made with chopped string hoppers instead of roti, for a lighter texture and unique flavor.</p>
+          
+          <h5><span class="kottu-type">Mensa Special Kottu:</span></h5>
+          <p>Our signature kottu with a secret blend of spices, extra vegetables, and premium cuts of meat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order Form -->
+  <section class="container pb-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="form-section">
+          <h3 class="mb-3 text-center">Place Your Kottu Order</h3>
+          
+          <!-- Customer Information -->
+          <div class="mb-3">
+            <h5 class="mb-2">Customer Information</h5>
+            <div class="mb-2">
+              <label for="name" class="form-label">Full Name *</label>
+              <input type="text" id="name" name="name" required class="form-control" />
+            </div>
+            <div class="mb-2">
+              <label for="email" class="form-label">Email *</label>
+              <input type="email" id="email" name="email" required class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number *</label>
+              <input type="tel" id="phone" name="phone" required class="form-control" />
+            </div>
+          </div>
+
+          <!-- Kottu Selection -->
+          <div class="mb-3">
+            <h5 class="mb-2">Select Your Kottu</h5>
+            <div class="kottu-selector">
+              <select id="typeSelect" class="form-select">
+                <option value="" disabled selected>Select Kottu Type</option>
+                <option value="Regular Kottu">Regular Kottu</option>
+                <option value="Dolphin Kottu">Dolphin Kottu</option>
+                <option value="String Hopper Kottu">String Hopper Kottu</option>
+                <option value="Mensa Special Kottu">Mensa Special Kottu</option>
+              </select>
+              
+              <select id="optionSelect" class="form-select">
+                <option value="" disabled selected>Select Option</option>
+                <option value="Chicken">Chicken</option>
+                <option value="Cheese">Cheese</option>
+                <option value="Cheese Chicken">Cheese Chicken</option>
+                <option value="Egg">Egg</option>
+                <option value="Cheese Prawns">Cheese Prawns</option>
+                <option value="Sea food">Sea food</option>
+                <option value="Cheese Sea food">Cheese Sea food</option>
+                <option value="Vegetable">Vegetable</option>
+                <option value="Cheese Vegetable">Cheese Vegetable</option>
+              </select>
+              
+              <select id="portionSelect" class="form-select">
+                <option value="" disabled selected>Select Portion</option>
+                <option value="1">One Portion</option>
+                <option value="2">Full Portion</option>
+                <option value="3">Large Portion</option>
+              </select>
+              
+              <select id="quantitySelect" class="form-select">
+                <option value="" disabled selected>Select Quantity</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="custom">Custom</option>
+              </select>
+              
+              <input type="number" id="customQuantity" class="form-control" placeholder="Enter quantity" style="display: none;" min="1">
+              
+              <button type="button" class="btn btn-primary btn-add" onclick="addToOrder()">
+                <i class="bi bi-plus"></i> Add
+              </button>
+            </div>
+          </div>
+
+          <!-- Order Summary Card -->
+          <div class="mb-3">
+            <h5 class="mb-2">Your Order</h5>
+            <div id="orderCard" class="order-card" style="display: none;">
+              <div id="orderItems"></div>
+              <div class="order-total">
+                Total: Rs<span id="orderTotal">0.00</span>
+              </div>
+            </div>
+            <div id="emptyOrderMessage" class="text-muted">
+              Your order is empty. Please add kottu items above.
+            </div>
+          </div>
+
+          <!-- Additional Details -->
+          <div class="mb-3">
+            <h5 class="mb-2">Additional Details</h5>
+            <div class="mb-2">
+              <label for="spiceLevel" class="form-label">Spice Level</label>
+              <select id="spiceLevel" class="form-select">
+                <option value="Mild">Mild</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Spicy">Spicy</option>
+                <option value="Extra Spicy">Extra Spicy</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label for="specialInstructions" class="form-label">Special Instructions</label>
+              <textarea id="specialInstructions" class="form-control" rows="2" 
+                placeholder="Extra spicy, less oil, no onions, etc."></textarea>
+            </div>
+          </div>
+
+          <!-- Delivery Date -->
+          <div class="mb-4">
+            <label for="deliveryDate" class="form-label">Preferred Delivery/Pickup Date *</label>
+            <input type="date" id="deliveryDate" name="deliveryDate" required class="form-control" />
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button type="button" class="btn btn-primary px-4 py-2" onclick="placeOrder()">Submit Order</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Mensa Kottu House. All rights reserved.
+  </footer>
+
+  <script>
+    // Base prices for each kottu type and option combination (price per portion size)
+    const basePriceMap = {
+      "Regular Kottu": {
+        "Chicken": { "1": 400, "2": 750, "3": 1100 },
+        "Cheese": { "1": 450, "2": 850, "3": 1200 },
+        "Cheese Chicken": { "1": 500, "2": 950, "3": 1350 },
+        "Egg": { "1": 350, "2": 650, "3": 950 },
+        "Cheese Prawns": { "1": 550, "2": 1050, "3": 1500 },
+        "Sea food": { "1": 500, "2": 950, "3": 1350 },
+        "Cheese Sea food": { "1": 550, "2": 1050, "3": 1500 },
+        "Vegetable": { "1": 300, "2": 550, "3": 800 },
+        "Cheese Vegetable": { "1": 350, "2": 650, "3": 950 }
+      },
+      "Dolphin Kottu": {
+        "Chicken": { "1": 450, "2": 850, "3": 1200 },
+        "Cheese": { "1": 500, "2": 950, "3": 1350 },
+        "Cheese Chicken": { "1": 550, "2": 1050, "3": 1500 },
+        "Egg": { "1": 400, "2": 750, "3": 1100 },
+        "Cheese Prawns": { "1": 600, "2": 1150, "3": 1650 },
+        "Sea food": { "1": 550, "2": 1050, "3": 1500 },
+        "Cheese Sea food": { "1": 600, "2": 1150, "3": 1650 },
+        "Vegetable": { "1": 350, "2": 650, "3": 950 },
+        "Cheese Vegetable": { "1": 400, "2": 750, "3": 1100 }
+      },
+      "String Hopper Kottu": {
+        "Chicken": { "1": 500, "2": 950, "3": 1350 },
+        "Cheese": { "1": 550, "2": 1050, "3": 1500 },
+        "Cheese Chicken": { "1": 600, "2": 1150, "3": 1650 },
+        "Egg": { "1": 450, "2": 850, "3": 1200 },
+        "Cheese Prawns": { "1": 650, "2": 1250, "3": 1800 },
+        "Sea food": { "1": 600, "2": 1150, "3": 1650 },
+        "Cheese Sea food": { "1": 650, "2": 1250, "3": 1800 },
+        "Vegetable": { "1": 400, "2": 750, "3": 1100 },
+        "Cheese Vegetable": { "1": 450, "2": 850, "3": 1200 }
+      },
+      "Mensa Special Kottu": {
+        "Chicken": { "1": 600, "2": 1150, "3": 1650 },
+        "Cheese": { "1": 650, "2": 1250, "3": 1800 },
+        "Cheese Chicken": { "1": 700, "2": 1350, "3": 1950 },
+        "Egg": { "1": 550, "2": 1050, "3": 1500 },
+        "Cheese Prawns": { "1": 750, "2": 1450, "3": 2100 },
+        "Sea food": { "1": 700, "2": 1350, "3": 1950 },
+        "Cheese Sea food": { "1": 750, "2": 1450, "3": 2100 },
+        "Vegetable": { "1": 500, "2": 950, "3": 1350 },
+        "Cheese Vegetable": { "1": 550, "2": 1050, "3": 1500 }
+      }
+    };
+
+    let orderItems = [];
+    let totalAmount = 0;
+
+    // Show/hide custom quantity input
+    document.getElementById('quantitySelect').addEventListener('change', function() {
+      const customQtyInput = document.getElementById('customQuantity');
+      customQtyInput.style.display = this.value === 'custom' ? 'block' : 'none';
+      if (this.value !== 'custom') customQtyInput.value = '';
+    });
+
+    function calculatePrice(type, option, portion, quantity) {
+      const basePrice = basePriceMap[type][option][portion];
+      return basePrice * quantity;
+    }
+
+    function getPortionText(portionValue) {
+      switch(portionValue) {
+        case "1": return "One Portion";
+        case "2": return "Full Portion";
+        case "3": return "Large Portion";
+        default: return portionValue;
+      }
+    }
+
+    function addToOrder() {
+      const typeSelect = document.getElementById('typeSelect');
+      const optionSelect = document.getElementById('optionSelect');
+      const portionSelect = document.getElementById('portionSelect');
+      const quantitySelect = document.getElementById('quantitySelect');
+      const customQuantity = document.getElementById('customQuantity');
+      const spiceLevel = document.getElementById('spiceLevel').value;
+      
+      const type = typeSelect.value;
+      const option = optionSelect.value;
+      const portion = portionSelect.value;
+      let quantity = quantitySelect.value;
+      
+      if (quantity === 'custom') {
+        quantity = customQuantity.value;
+      }
+      
+      if (!type) {
+        alert('Please select a kottu type');
+        return;
+      }
+      
+      if (!option) {
+        alert('Please select an option');
+        return;
+      }
+      
+      if (!portion) {
+        alert('Please select a portion size');
+        return;
+      }
+      
+      if (!quantity || quantity <= 0) {
+        alert('Please enter a valid quantity');
+        return;
+      }
+      
+      quantity = parseInt(quantity);
+      const itemTotal = calculatePrice(type, option, portion, quantity);
+      const portionText = getPortionText(portion);
+      
+      // Add to order items array
+      orderItems.push({
+        type,
+        option,
+        portion,
+        portionText,
+        quantity,
+        spiceLevel,
+        itemTotal
+      });
+      
+      // Update total
+      totalAmount += itemTotal;
+      
+      // Update UI
+      updateOrderCard();
+      
+      // Reset form
+      typeSelect.selectedIndex = 0;
+      optionSelect.selectedIndex = 0;
+      portionSelect.selectedIndex = 0;
+      quantitySelect.selectedIndex = 0;
+      customQuantity.style.display = 'none';
+      customQuantity.value = '';
+    }
+
+    function updateOrderCard() {
+      const orderItemsDiv = document.getElementById('orderItems');
+      const orderTotalSpan = document.getElementById('orderTotal');
+      const orderCard = document.getElementById('orderCard');
+      const emptyOrderMessage = document.getElementById('emptyOrderMessage');
+      
+      if (orderItems.length === 0) {
+        orderCard.style.display = 'none';
+        emptyOrderMessage.style.display = 'block';
+        return;
+      }
+      
+      // Clear existing items
+      orderItemsDiv.innerHTML = '';
+      
+      // Add each item
+      orderItems.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'order-item';
+        itemDiv.innerHTML = `
+          <span>${item.quantity}x ${item.type} (${item.option}, ${item.portionText}, ${item.spiceLevel})</span>
+          <span>Rs${item.itemTotal.toFixed(2)} <button class="btn btn-sm btn-outline-danger" onclick="removeItem(${index})"><i class="bi bi-trash"></i></button></span>
+        `;
+        orderItemsDiv.appendChild(itemDiv);
+      });
+      
+      // Update total
+      orderTotalSpan.textContent = totalAmount.toFixed(2);
+      
+      // Show card
+      orderCard.style.display = 'block';
+      emptyOrderMessage.style.display = 'none';
+    }
+
+    function removeItem(index) {
+      // Subtract from total
+      totalAmount -= orderItems[index].itemTotal;
+      
+      // Remove from array
+      orderItems.splice(index, 1);
+      
+      // Update UI
+      updateOrderCard();
+    }
+
+    function placeOrder() {
+      if (orderItems.length === 0) {
+        alert('Please add at least one item to your order');
+        return;
+      }
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const deliveryDate = document.getElementById('deliveryDate').value;
+      
+      if (!name || !email || !phone || !deliveryDate) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // Here you would typically send the order to your backend
+      // For now we'll just show a confirmation
+      alert(`Order placed successfully!\nTotal: Rs${totalAmount.toFixed(2)}\nWe'll contact you to confirm details.`);
+      
+      // Reset form
+      orderItems = [];
+      totalAmount = 0;
+      updateOrderCard();
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('deliveryDate').value = '';
+      document.getElementById('spiceLevel').selectedIndex = 1;
+      document.getElementById('specialInstructions').value = '';
+    }
+
+    // Set minimum date to today
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('deliveryDate').min = today;
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
