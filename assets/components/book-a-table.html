@@ -1,0 +1,161 @@
+<!-- Get a Custom Quote Section -->
+<section id="book-a-table" class="get-a-quote section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <p><span>Get a</span> <span class="description-title">Custom Quote<br></span></p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+        <div class="row g-0" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="col-lg-4 quote-img" style="background-image: url(assets/img/reservation.jpg);"></div>
+
+            <div class="col-lg-8 d-flex align-items-center quote-form-bg" data-aos="fade-up" data-aos-delay="200">
+                <form action="forms/custom-quote.php" method="post" role="form" class="php-email-form" enctype="multipart/form-data">
+                    <div class="row gy-4">
+                        <div class="col-lg-6 col-md-6">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <input type="text" class="form-control" name="contact" id="contact" placeholder="Email or Phone Number" required>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <select name="category" class="form-select" id="category" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Cake">Cake</option>
+                                <option value="Pastry">Pastry</option>
+                                <option value="Dessert Platter">Dessert Platter</option>
+                                <option value="Custom Order">Custom Order</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <input type="date" name="delivery_date" class="form-control" id="delivery_date" placeholder="Delivery/Pickup Date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <textarea class="form-control" name="message" rows="5" placeholder="Special Instructions/Requests"></textarea>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="image" class="form-label">Upload Image</label>
+                        <input type="file" class="form-control" name="image" id="image" accept="image/*">
+                        <div class="form-text">Optional: Upload an image for reference if you have a specific design in mind.</div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <div class="loading">Loading</div>
+                        <div class="error-message"></div>
+                        <div class="sent-message">Your quote request was sent successfully. We will contact you shortly!</div>
+                        <button type="submit" class="btn-submit">Get My Quote</button>
+                    </div>
+                </form>
+            </div><!-- End Quote Form -->
+
+        </div>
+
+    </div>
+
+</section><!-- /Get a Custom Quote Section -->
+
+<!-- Add this CSS to your stylesheet -->
+<style>
+    .get-a-quote .quote-img {
+        min-height: 500px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .get-a-quote .quote-form-bg {
+        background-color: #f8f9fa;
+        padding: 50px 30px;
+    }
+
+    .get-a-quote .php-email-form {
+        width: 100%;
+    }
+
+    .get-a-quote .form-group {
+        margin-bottom: 20px;
+    }
+
+    .get-a-quote .form-control,
+    .get-a-quote .form-select {
+        height: 56px;
+        border-radius: 10px;
+        box-shadow: none;
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+
+    .get-a-quote textarea.form-control {
+        height: auto;
+    }
+
+    .get-a-quote .btn-submit {
+        color: var(--contrast-color);
+        background: var(--accent-color);
+        border: 0;
+        font-size: 14px;
+        padding: 8px 26px;
+        margin: 0;
+        border-radius: 50px;
+        transition: 0.3s;
+    }
+
+    .get-a-quote .btn-submit:hover {
+        color: var(--contrast-color);
+        background: color-mix(in srgb, var(--accent-color), transparent 15%);
+    }
+
+    .get-a-quote .loading {
+        display: none;
+        background: #fff;
+        text-align: center;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .get-a-quote .loading:before {
+        content: "";
+        display: inline-block;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        margin: 0 10px -6px 0;
+        border: 3px solid #e42126;
+        border-top-color: #fff;
+        animation: animate-loading 1s linear infinite;
+    }
+
+    .get-a-quote .error-message {
+        display: none;
+        color: #fff;
+        background: #df1529;
+        text-align: left;
+        padding: 15px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .get-a-quote .sent-message {
+        display: none;
+        color: #fff;
+        background: #059652;
+        text-align: center;
+        padding: 15px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    @keyframes animate-loading {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
