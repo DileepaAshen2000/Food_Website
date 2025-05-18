@@ -74,15 +74,37 @@
             color: white;
             cursor: pointer;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
     </style>
 
-    <!-- =======================================================
-    * Template Name: Yummy
-    * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-    * Updated: Aug 07 2024 with Bootstrap v5.3.3
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
 </head>
 
 <body class="index-page">
@@ -110,16 +132,7 @@
                         <li class="dropdown"><a href="#"><span>Account</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="#">profile</a></li>
-                                <!-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                            <li><a href="#">Deep Dropdown 1</a></li>
-                            <li><a href="#">Deep Dropdown 2</a></li>
-                            <li><a href="#">Deep Dropdown 3</a></li>
-                            <li><a href="#">Deep Dropdown 4</a></li>
-                            <li><a href="#">Deep Dropdown 5</a></li>
-                            </ul>
-                        </li> -->
+                                <li><a href="#">Profile</a></li>
                                 <li><a href="#">Change Password</a></li>
                                 <li><a href="#">Logout</a></li>
                             </ul>
@@ -145,7 +158,7 @@
             <div id="sidebar" class="sidebar">
                 <button class="close-btn" onclick="toggleSidebar()">×</button>
                 <ul>
-                    <li><a href="pages/login.html#login"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li><a href="#" onclick="openLoginModal()"><i class="bi bi-person-fill"></i> Profile</a></li>
                     <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
                     <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
                 </ul>
@@ -204,6 +217,15 @@
 
     <!-- Preloader -->
     <div id="preloader"></div>
+
+    <!-- Login/ Sign Up forms -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content" id="authModalContent">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <!-- Login form will be loaded here -->
+        </div>
+    </div>
+
 
     <script>
         function toggleSidebar() {
@@ -392,6 +414,61 @@
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <script>
+        function openLoginModal() {
+            fetch('pages/login.html')
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const loginSection = doc.querySelector('.login-section');
+                    const styleTags = doc.querySelectorAll('style');
+                    const scriptTags = doc.querySelectorAll('script');
+
+                    // Inject styles
+                    styleTags.forEach(style => {
+                        const newStyle = document.createElement('style');
+                        newStyle.innerHTML = style.innerHTML;
+                        document.head.appendChild(newStyle);
+                    });
+
+                    // Inject login section
+                    if (loginSection) {
+                        document.getElementById('authModalContent').innerHTML = `
+          <span class="close" onclick="closeModal()">&times;</span>
+          ${loginSection.outerHTML}
+        `;
+                        document.getElementById('authModal').style.display = 'block';
+                    }
+
+                    // Inject scripts
+                    scriptTags.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.innerHTML = script.innerHTML;
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                });
+        }
+
+
+        function closeModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        // Optional: Close modal on outside click
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('authModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+
 
 </body>
 
