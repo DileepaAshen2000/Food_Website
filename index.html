@@ -33,7 +33,8 @@
         .sidebar {
             position: fixed;
             top: 0;
-            right: -250px; /* Hidden initially */
+            right: -250px;
+            /* Hidden initially */
             width: 250px;
             height: 100%;
             background: #333;
@@ -42,22 +43,27 @@
             transition: 0.3s;
             box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.5);
         }
+
         .sidebar ul {
             list-style: none;
             padding: 0;
         }
+
         .sidebar ul li {
             padding: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         .sidebar ul li a {
             color: white;
             text-decoration: none;
             display: block;
         }
+
         .sidebar ul li a:hover {
             background: rgba(255, 255, 255, 0.2);
         }
+
         .close-btn {
             position: absolute;
             top: 10px;
@@ -68,15 +74,37 @@
             color: white;
             cursor: pointer;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
     </style>
 
-    <!-- =======================================================
-    * Template Name: Yummy
-    * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-    * Updated: Aug 07 2024 with Bootstrap v5.3.3
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
 </head>
 
 <body class="index-page">
@@ -84,64 +112,57 @@
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container position-relative d-flex align-items-center justify-content-between">
 
-        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-            <!-- Uncomment the line below if you also wish to use an image logo -->
-            <!-- <img src="assets/img/mensa_logo.png" alt=""> -->
-            <img src="assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
-            <h1 class="sitename">Mensa</h1>
-            <span>.</span>
-        </a>
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <!-- <img src="assets/img/mensa_logo.png" alt=""> -->
+                <img src="assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
+                <h1 class="sitename">Mensa</h1>
+                <span>.</span>
+            </a>
 
-        <nav id="navmenu" class="navmenu">
-            <ul>
-            <li><a href="#hero" class="active">Home<br></a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#menu">Menu</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <div class="d-xl-none">
-                <li class="dropdown"><a href="#"><span>Account</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                    <ul>
-                        <li><a href="#">profile</a></li>
-                        <!-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="#hero" class="active">Home<br></a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <div class="d-xl-none">
+                        <li class="dropdown"><a href="#"><span>Account</span> <i
+                                    class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                            <li><a href="#">Deep Dropdown 1</a></li>
-                            <li><a href="#">Deep Dropdown 2</a></li>
-                            <li><a href="#">Deep Dropdown 3</a></li>
-                            <li><a href="#">Deep Dropdown 4</a></li>
-                            <li><a href="#">Deep Dropdown 5</a></li>
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Change Password</a></li>
+                                <li><a href="#">Logout</a></li>
                             </ul>
-                        </li> -->
-                        <li><a href="#">Change Password</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </li>
-                <div class="d-flex p-4 justify-content-between align-content-center">
-                    <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
-                    <a class="btn-getstarted" href="index.html#book-a-table">Logout</a>
-                </div>
-            </div>
-            
-            </ul>
-            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
+                        </li>
+                        <div class="d-flex p-4 justify-content-between align-content-center">
+                            <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+                            <a class="btn-getstarted" href="index.html#book-a-table">Logout</a>
+                        </div>
+                    </div>
 
-        <div class="d-none d-xl-flex align-items-center justify-content-center">
-            <!-- <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px;"></i> -->
-            <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;" id="account-icon"></i>
-            <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
-        </div>
-        
-        <!-- Sidebar Account Options (Initially Hidden) -->
-        <div id="sidebar" class="sidebar">
-            <button class="close-btn" onclick="toggleSidebar()">×</button>
-            <ul>
-                <li><a href="#"><i class="bi bi-person-fill"></i> Profile</a></li>
-                <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
-                <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-            </ul>
-        </div>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <div class="d-none d-xl-flex align-items-center justify-content-center">
+                <!-- <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px;"></i> -->
+                <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
+                    id="account-icon"></i>
+                <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+            </div>
+
+            <!-- Sidebar Account Options (Initially Hidden) -->
+            <div id="sidebar" class="sidebar">
+                <button class="close-btn" onclick="toggleSidebar()">×</button>
+                <ul>
+                    <li><a href="#" onclick="openLoginModal()"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
+                    <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                </ul>
+            </div>
 
         </div>
     </header>
@@ -197,6 +218,15 @@
     <!-- Preloader -->
     <div id="preloader"></div>
 
+    <!-- Login/ Sign Up forms -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content" id="authModalContent">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <!-- Login form will be loaded here -->
+        </div>
+    </div>
+
+
     <script>
         function toggleSidebar() {
             var sidebar = document.getElementById("sidebar");
@@ -208,7 +238,7 @@
         }
         // Open sidebar when clicking the account icon
         document.getElementById("account-icon").addEventListener("click", toggleSidebar);
-            
+
         async function loadComponents() {
             const components = [
                 { id: 'hero-container', file: 'assets/components/hero.html' },
@@ -243,28 +273,28 @@
                         }
 
 
-                    // Initialize Gallery components
-                    if (component.id === 'gallery-container') {
-                    initGallerySwiper();
-                    initGalleryLightbox();
-                    }
-
-                    // Initialize PureCounter specifically for the stats section
-                    if (component.id === 'stats-container') {
-                        // Wait a brief moment to ensure DOM is ready
-                        setTimeout(() => {
-                        if (typeof PureCounter !== 'undefined') {
-                            new PureCounter({
-                                decimal:true,
-                                separator: true
-                            });
-                        } else {
-                            console.warn('PureCounter not loaded yet');
+                        // Initialize Gallery components
+                        if (component.id === 'gallery-container') {
+                            initGallerySwiper();
+                            initGalleryLightbox();
                         }
-                        }, 100);
-                    }
-                })
-                .catch(error => console.error('Error loading component:', error));
+
+                        // Initialize PureCounter specifically for the stats section
+                        if (component.id === 'stats-container') {
+                            // Wait a brief moment to ensure DOM is ready
+                            setTimeout(() => {
+                                if (typeof PureCounter !== 'undefined') {
+                                    new PureCounter({
+                                        decimal: true,
+                                        separator: true
+                                    });
+                                } else {
+                                    console.warn('PureCounter not loaded yet');
+                                }
+                            }, 100);
+                        }
+                    })
+                    .catch(error => console.error('Error loading component:', error));
             }));
 
             // Initialize other plugins
@@ -384,6 +414,61 @@
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <script>
+        function openLoginModal() {
+            fetch('pages/login.html')
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const loginSection = doc.querySelector('.login-section');
+                    const styleTags = doc.querySelectorAll('style');
+                    const scriptTags = doc.querySelectorAll('script');
+
+                    // Inject styles
+                    styleTags.forEach(style => {
+                        const newStyle = document.createElement('style');
+                        newStyle.innerHTML = style.innerHTML;
+                        document.head.appendChild(newStyle);
+                    });
+
+                    // Inject login section
+                    if (loginSection) {
+                        document.getElementById('authModalContent').innerHTML = `
+          <span class="close" onclick="closeModal()">&times;</span>
+          ${loginSection.outerHTML}
+        `;
+                        document.getElementById('authModal').style.display = 'block';
+                    }
+
+                    // Inject scripts
+                    scriptTags.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.innerHTML = script.innerHTML;
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                });
+        }
+
+
+        function closeModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        // Optional: Close modal on outside click
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('authModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+
 
 </body>
 
