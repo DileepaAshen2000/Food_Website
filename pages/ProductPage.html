@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details | Mensa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/assets/css/main.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .product-hero {
+            background-color: #f8f9fa;
+            padding: 40px 0;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .variation-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #34495e;
+        }
+
+        .add-to-cart-btn {
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .image-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .image-thumbnail:hover,
+        .image-thumbnail.active {
+            border-color: #e74c3c;
+        }
+
+        .carousel-indicators {
+            bottom: -50px;
+        }
+
+        .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #bdc3c7;
+        }
+
+        .carousel-indicators button.active {
+            background-color: #e74c3c;
+        }
+
+        .no-image-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: #6c757d;
+            font-size: 1.2rem;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-container {
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+
+            .product-image,
+            .no-image-placeholder {
+                height: 300px;
+            }
+
+            .product-title {
+                font-size: 1.8rem;
+            }
+
+            .product-price {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .product-image,
+            .no-image-placeholder {
+                height: 250px;
+            }
+
+            .product-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header id="header" class="header d-flex align-items-center sticky-top">
+        <div class="container position-relative d-flex align-items-center justify-content-between">
+
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <!-- <img src="assets/img/mensa_logo.png" alt=""> -->
+                <img src="/assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
+                <h1 class="sitename">Mensa</h1>
+                <span>.</span>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="/index.html#hero" class="active">Home<br></a></li>
+                    <li><a href="/index.html#about">About</a></li>
+                    <li><a href="/index.html#menu">Menu</a></li>
+                    <li><a href="/index.html#events">Events</a></li>
+                    <li><a href="/index.html#gallery">Gallery</a></li>
+                    <li><a href="/index.html#contact">Contact</a></li>
+                    <div class="d-xl-none">
+                        <li class="dropdown"><a href="#"><span>Account</span> <i
+                                    class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Change Password</a></li>
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                        </li>
+                        <div class="d-flex p-4 justify-content-between align-content-center">
+                            <a class="btn-getstarted" href="/index.html#book-a-table">Get a Quote</a>
+                            <a class="btn-getstarted" href="/index.html#book-a-table">Logout</a>
+                        </div>
+                    </div>
+
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <div class="d-none d-xl-flex align-items-center justify-content-center">
+                <!-- <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px;"></i> -->
+                <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
+                    id="account-icon"></i>
+                <a class="btn-getstarted" href="/index.html#book-a-table">Get a Quote</a>
+            </div>
+
+
+
+        </div>
+    </header>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner-border text-primary spinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Product Section -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="row">
+                <!-- Product Images -->
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" id="carouselInner">
+                            <!-- Carousel items will be dynamically inserted here -->
+                            <div class="no-image-placeholder">
+                                <i class="bi bi-image" style="font-size: 3rem"></i>
+                                <p class="mt-2">No images available</p>
+                            </div>
+                        </div>
+                        <div class="carousel-indicators" id="carouselIndicators">
+                            <!-- Indicators will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Thumbnail navigation -->
+                    <div class="d-flex justify-content-center mt-3" id="thumbnailContainer">
+                        <!-- Thumbnails will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="col-lg-6">
+                    <h1 class="product-title" id="productName">Product Name</h1>
+                    <div class="product-price" id="productPrice">Rs0</div>
+                    <p class="product-description" id="productDescription">
+                        Product description
+                    </p>
+
+                    <!-- Variations will be dynamically inserted here -->
+                    <div id="variationsContainer"></div>
+
+                    <!-- Quantity Selector -->
+                    <div class="mb-4">
+                        <label for="quantity" class="variation-label">Quantity</label>
+                        <div class="input-group" style="max-width: 150px">
+                            <button class="btn btn-outline-secondary" type="button" id="decrement">
+                                -
+                            </button>
+                            <input type="number" class="form-control text-center" id="quantity" value="1" min="1" />
+                            <button class="btn btn-outline-secondary" type="button" id="increment">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart Button -->
+                    <button class="btn btn-danger add-to-cart-btn mb-4" id="addToCartBtn">
+                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                    </button>
+
+                    <!-- Product Details Accordion -->
+                    <div class="accordion mb-4" id="productAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#detailsCollapse">
+                                    Product Details
+                                </button>
+                            </h2>
+                            <div id="detailsCollapse" class="accordion-collapse collapse"
+                                data-bs-parent="#productAccordion">
+                                <div class="accordion-body">
+                                    <p id="productDetailsText">
+                                        Detailed product information will be displayed here.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#deliveryCollapse">
+                                    Delivery Information
+                                </button>
+                            </h2>
+                            <div id="deliveryCollapse" class="accordion-collapse collapse"
+                                data-bs-parent="#productAccordion">
+                                <div class="accordion-body">
+                                    <p>
+                                        We deliver within the city with a minimum order of Rs500.
+                                        Delivery charges may apply based on distance.
+                                    </p>
+                                    <p>
+                                        Orders placed before 12 PM can be delivered the same day.
+                                        For larger orders, please place your order at least 24
+                                        hours in advance.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-5">You May Also Like</h2>
+            <div class="row" id="relatedProducts">
+                <!-- Related products will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load footer content
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/assets/components/footer.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    document.getElementById('footer-container').innerHTML = html;
+
+                    // Optional: Initialize any components that need JS after loading
+                    initializeFooterComponents();
+                })
+                .catch(error => {
+                    console.error('Error loading footer:', error);
+                    document.getElementById('footer-container').innerHTML = `
+                    <div class="alert alert-warning">
+                        Failed to load footer content. Please refresh the page.
+                    </div>
+                `;
+                });
+
+            function initializeFooterComponents() {
+                // Add any JavaScript that needs to run after footer loads
+                // For example, tooltips, event listeners, etc.
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            console.log("Product ID:", productId);
+            let productData;
+            let apiResponse;
+
+            async function fetchProductData() {
+                try {
+                    document.getElementById('loadingOverlay').style.display = 'flex';
+
+                    const response = await fetch(`http://127.0.0.1:3000/api/foods/${productId}`);
+                    const result = await response.json();
+
+                    const allFoods = await fetch('http://127.0.0.1:3000/api/foods');
+                    apiResponse = await allFoods.json();
+
+                    if (result.status) {
+                        productData = result.data;
+                        console.log("Product data:", productData);
+                        renderProductDetails();
+                    } else {
+                        alert("Failed to fetch product details.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching product:", error);
+                } finally {
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                }
+            }
+
+            function renderProductDetails() {
+
+                if (!productData) {
+                    document.getElementById("productName").textContent =
+                        "Product Not Found";
+                    document.getElementById("productDescription").textContent =
+                        "The requested product could not be found.";
+                    return;
+                }
+
+                document.getElementById("productName").textContent = productData.name;
+                document.getElementById("productDescription").textContent =
+                    productData.description;
+                document.getElementById(
+                    "productPrice"
+                ).textContent = `Rs${productData.basePrice}`;
+                document.getElementById("productDetailsText").textContent =
+                    productData.description;
+
+                //create carousel
+                const carouselInner = document.getElementById("carouselInner");
+                const carouselIndicators =
+                    document.getElementById("carouselIndicators");
+                const thumbnailContainer =
+                    document.getElementById("thumbnailContainer");
+
+                carouselInner.innerHTML = "";
+                carouselIndicators.innerHTML = "";
+                thumbnailContainer.innerHTML = "";
+
+                if (productData.imageUrls && productData.imageUrls.length > 0) {
+
+                    document.querySelector(".no-image-placeholder")?.remove();
+                    productData.imageUrls.forEach((image, index) => {
+                        const carouselItem = document.createElement("div");
+                        carouselItem.className = `carousel-item ${index === 0 ? "active" : ""
+                            }`;
+
+                        const img = document.createElement("img");
+                        img.src = image.url;
+                        img.alt = productData.name;
+                        img.className = "product-image";
+
+                        carouselItem.appendChild(img);
+                        carouselInner.appendChild(carouselItem);
+
+                        const indicator = document.createElement("button");
+                        indicator.type = "button";
+                        indicator.dataset.bsTarget = "#productCarousel";
+                        indicator.dataset.bsSlideTo = index;
+                        indicator.className = index === 0 ? "active" : "";
+                        indicator.setAttribute(
+                            "aria-current",
+                            index === 0 ? "true" : "false"
+                        );
+                        indicator.setAttribute("aria-label", `Slide ${index + 1}`);
+                        carouselIndicators.appendChild(indicator);
+
+                        const thumbnail = document.createElement("img");
+                        thumbnail.src = image.url;
+                        thumbnail.alt = `Thumbnail ${index + 1}`;
+                        thumbnail.className = `image-thumbnail me-2 ${index === 0 ? "active" : ""
+                            }`;
+                        thumbnail.dataset.bsTarget = "#productCarousel";
+                        thumbnail.dataset.bsSlideTo = index;
+                        thumbnail.addEventListener("click", () => {
+                            document.querySelectorAll(".image-thumbnail").forEach((thumb) => {
+                                thumb.classList.remove("active");
+                            });
+                            thumbnail.classList.add("active");
+                        });
+                        thumbnailContainer.appendChild(thumbnail);
+                    });
+                } else {
+                    carouselInner.innerHTML = `
+          <div class="no-image-placeholder">
+            <i class="bi bi-image" style="font-size: 3rem;"></i>
+            <p class="mt-2">No images available</p>
+          </div>
+        `;
+                }
+
+                let variations = productData.variations;
+                if (typeof variations === "string") {
+                    try {
+                        variations = JSON.parse(variations);
+                    } catch (e) {
+                        console.error("Error parsing variations:", e);
+                        variations = [];
+                    }
+                }
+
+                const variationsContainer = document.getElementById(
+                    "variationsContainer"
+                );
+                variationsContainer.innerHTML = "";
+
+                if (variations && variations.length > 0) {
+                    variations.forEach((variation) => {
+                        const variationGroup = document.createElement("div");
+                        variationGroup.className = "mb-4";
+
+                        const label = document.createElement("label");
+                        label.className = "variation-label";
+                        label.textContent =
+                            variation.name.charAt(0).toUpperCase() + variation.name.slice(1);
+                        label.htmlFor = variation.name;
+
+                        const select = document.createElement("select");
+                        select.className = "form-select variation-select";
+                        select.id = variation.name;
+                        select.dataset.variationName = variation.name;
+
+                        // Add options
+                        variation.options.forEach((option) => {
+                            const optionElement = document.createElement("option");
+                            optionElement.value = option.name;
+                            optionElement.textContent = `${option.name} ${option.additionalPrice > 0
+                                ? `(+Rs${option.additionalPrice})`
+                                : ""
+                                }`;
+                            optionElement.dataset.additionalPrice = option.additionalPrice;
+                            select.appendChild(optionElement);
+                        });
+
+                        variationGroup.appendChild(label);
+                        variationGroup.appendChild(select);
+                        variationsContainer.appendChild(variationGroup);
+                    });
+                } else {
+                    variationsContainer.innerHTML =
+                        '<p class="text-muted">No variations available for this product.</p>';
+                }
+
+                // Quantity controls
+                const quantityInput = document.getElementById("quantity");
+                document.getElementById("increment").addEventListener("click", () => {
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                    updateTotalPrice();
+                });
+
+                document.getElementById("decrement").addEventListener("click", () => {
+                    if (parseInt(quantityInput.value) > 1) {
+                        quantityInput.value = parseInt(quantityInput.value) - 1;
+                        updateTotalPrice();
+                    }
+                });
+
+                quantityInput.addEventListener("change", updateTotalPrice);
+
+                // Variation change handler
+                document.querySelectorAll(".variation-select").forEach((select) => {
+                    select.addEventListener("change", updateTotalPrice);
+                });
+
+                function updateTotalPrice() {
+                    const basePrice = parseInt(productData.basePrice);
+                    let totalPrice = basePrice;
+                    const quantity = parseInt(document.getElementById("quantity").value);
+
+                    document.querySelectorAll(".variation-select").forEach((select) => {
+                        const selectedOption = select.options[select.selectedIndex];
+                        const additionalPrice =
+                            parseInt(selectedOption.dataset.additionalPrice) || 0;
+                        totalPrice += additionalPrice;
+                    });
+
+                    document.getElementById("productPrice").textContent = `Rs${totalPrice * quantity
+                        }`;
+                }
+
+                // Add to cart functionality
+                document
+                    .getElementById("addToCartBtn")
+                    .addEventListener("click", function () {
+                        const productId = productData.id;
+                        const productName = productData.name;
+                        const quantity = parseInt(
+                            document.getElementById("quantity").value
+                        );
+                        const basePrice = parseInt(productData.basePrice);
+
+                        const variations = [];
+                        document.querySelectorAll(".variation-select").forEach((select) => {
+                            const selectedOption = select.options[select.selectedIndex];
+                            variations.push({
+                                name: select.dataset.variationName,
+                                option: selectedOption.value,
+                                additionalPrice:
+                                    parseInt(selectedOption.dataset.additionalPrice) || 0,
+                            });
+                        });
+
+                        // Calculate total price
+                        let totalPrice = basePrice;
+                        variations.forEach((variation) => {
+                            totalPrice += variation.additionalPrice;
+                        });
+                        totalPrice *= quantity;
+
+                        const cartItem = {
+                            id: productId,
+                            name: productName,
+                            quantity: quantity,
+                            basePrice: basePrice,
+                            variations: variations,
+                            totalPrice: totalPrice,
+                            imageUrl: productData.imageUrls?.[0]?.url || null,
+                        };
+
+                        console.log("Added to cart:", cartItem);
+
+                        alert(`${quantity} ${productName} added to cart!`);
+                    });
+
+                updateTotalPrice();
+
+                // Load related products (excluding current product)
+                const relatedProducts = apiResponse.data
+                    .filter((p) => p.id !== productId)
+                    .slice(0, 10);
+                const relatedProductsContainer =
+                    document.getElementById("relatedProducts");
+
+                relatedProducts.forEach((product) => {
+                    const col = document.createElement("div");
+                    col.className = "col-md-4 mb-4";
+
+                    col.innerHTML = `
+          <div class="card h-100">
+            <img src="${product.imageUrls?.[0]?.url ||
+                        "https://via.placeholder.com/300x200?text=No+Image"
+                        }" 
+                 class="card-img-top" 
+                 alt="${product.name}"
+                 style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text text-muted">${product.description}</p>
+              <p class="fw-bold text-danger">Rs${product.basePrice}</p>
+              <a href="/pages/ProductPage.html?id=${product.id
+                        }" class="btn btn-outline-danger">View Details</a>
+            </div>
+          </div>
+        `;
+
+                    relatedProductsContainer.appendChild(col);
+                });
+            }
+
+            fetchProductData();
+        });
+    </script>
+</body>
+
+</html>
