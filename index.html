@@ -149,6 +149,13 @@
 
             <div class="d-none d-xl-flex align-items-center justify-content-center">
                 <!-- <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px;"></i> -->
+                <div class="cart-toggle position-relative me-3" id="cartToggle" style="cursor: pointer;">
+                    <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        id="cartBadge">
+                        0
+                    </span>
+                </div>
                 <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
                     id="account-icon"></i>
                 <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
@@ -225,6 +232,9 @@
             <!-- Login form will be loaded here -->
         </div>
     </div>
+
+    <!-- ? Offcanvas -->
+    <div id="cart-offcanvas-container"></div>
 
 
     <script>
@@ -466,6 +476,14 @@
             if (e.target === modal) {
                 closeModal();
             }
+        });
+    </script>
+    <script src="/assets/js/cart.js"></script>
+    <script>
+    fetch('/assets/components/cart-offcanvas.html')
+        .then(response => response.text())
+        .then(html => {
+        document.getElementById('cart-offcanvas-container').innerHTML = html;
         });
     </script>
 
