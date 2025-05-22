@@ -1,0 +1,20 @@
+<!-- cart-offcanvas.html -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="cartItemsContainer">
+            <div class="text-center py-5" id="emptyCartMessage">
+                <i class="bi bi-cart-x" style="font-size: 3rem; color: #6c757d;"></i>
+                <p class="mt-3">Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-total d-flex justify-content-between mt-3 pt-3 border-top">
+            <span class="fw-bold">Total:</span>
+            <span class="fw-bold" id="cartTotal">Rs0</span>
+        </div>
+        <button class="btn btn-danger w-100 mt-3" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+</div>
