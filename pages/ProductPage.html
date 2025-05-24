@@ -11,10 +11,56 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     <style>
         body {
             font-family: "Inter", sans-serif;
             background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            /* Hidden initially */
+            width: 250px;
+            height: 100%;
+            background: #333;
+            color: white;
+            padding-top: 60px;
+            transition: 0.3s;
+            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar ul li a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
         }
 
         .product-hero {
@@ -156,7 +202,7 @@
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+            <a href="/index.html" class="logo d-flex align-items-center me-auto me-xl-0">
 
                 <img src="/assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
                 <h1 class="sitename">Mensa</h1>
@@ -187,20 +233,43 @@
                     </div>
 
                 </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                <!-- Mobile Navigation Toggle with Cart Icon -->
+                <div class="mobile-nav-toggle-wrapper d-xl-none" id="mobileAccountBtns">
+                    <div class="position-relative me-3" id="cartToggle" style="cursor: pointer; display: inline-block;">
+                        <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartBadge" style="font-size: 10px; ">
+                            0
+                        </span>
+                    </div>
+
+                </div>
             </nav>
 
-            <div class="d-none d-xl-flex align-items-center justify-content-center">
-                <div class="cart-toggle position-relative me-3" id="cartToggle" style="cursor: pointer;">
-                    <i class="bi bi-cart3" style="font-size: 24px;"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        id="cartBadge">
-                        0
-                    </span>
+            <div id="accountBtns">
+                <div class="d-none d-xl-flex align-items-center justify-content-center">
+                    <div class="cart-toggle position-relative me-3" id="cartToggleDesktop" style="cursor: pointer;">
+                        <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartBadgeDesktop">
+                            0
+                        </span>
+                    </div>
+                    <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
+                        id="account-icon"></i>
+                    <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
                 </div>
-                <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
-                    id="account-icon"></i>
-                <a class="btn-getstarted" href="/index.html#book-a-table">Get a Quote</a>
+            </div>
+            <a class="btn-getstarted" href="/pages/login.html" id="loginBtn">Login / Signup</a>
+
+            <!-- Sidebar Account Options (Initially Hidden) -->
+            <div id="sidebar" class="sidebar">
+                <button class="close-btn" onclick="toggleSidebar()">×</button>
+                <ul>
+                    <li><a href="#" onclick="openLoginModal()"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
+                    <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                </ul>
             </div>
 
 
@@ -324,6 +393,36 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const loginBtn = document.getElementById('loginBtn');
+            const accountBtns = document.getElementById('accountBtns');
+            const mobileAccountBtns = document.getElementById('mobileAccountBtns');
+
+            if (!token) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (accountBtns) accountBtns.style.display = 'flex';
+            } else {
+                if (loginBtn) loginBtn.style.display = 'inline-block';
+                if (accountBtns) accountBtns.style.display = 'none';
+                if (mobileAccountBtns) mobileAccountBtns.style.display = 'none';
+
+            }
+        });
+    </script>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.right === "-250px") {
+                sidebar.style.right = "0";
+            } else {
+                sidebar.style.right = "-250px";
+            }
+        }
+        // Open sidebar when clicking the account icon
+        document.getElementById("account-icon").addEventListener("click", toggleSidebar);
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             fetch('/assets/components/footer.html')
@@ -599,7 +698,7 @@
                         addToCart(cartItem);
 
                         // alert(`${quantity} ${productName} added to cart!`);
-                        
+
                     });
 
                 updateTotalPrice();
@@ -678,6 +777,7 @@
                 document.getElementById('cart-offcanvas-container').innerHTML = html;
             });
     </script>
+
 </body>
 
 </html>
