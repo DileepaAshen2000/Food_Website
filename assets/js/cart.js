@@ -290,8 +290,8 @@ class Cart {
     container.innerHTML = itemsHTML;
 
     // Calculate totals
-    const deliveryFee = 100;
-    const taxRate = 0.05;
+    const deliveryFee = 0;
+    const taxRate = 0;
     const taxAmount = subtotal * taxRate;
     const total = subtotal + deliveryFee + taxAmount;
 
@@ -299,9 +299,9 @@ class Cart {
     document.getElementById(
       "checkoutSubtotal"
     ).textContent = `Rs${subtotal.toFixed(2)}`;
-    document.getElementById("taxAmount").textContent = `Rs${taxAmount.toFixed(
-      2
-    )}`;
+    // document.getElementById("taxAmount").textContent = `Rs${taxAmount.toFixed(
+    //   2
+    // )}`;
     document.getElementById("checkoutTotal").textContent = `Rs${total.toFixed(
       2
     )}`;
@@ -311,9 +311,10 @@ class Cart {
     const form = document.getElementById("deliveryForm");
     const name = document.getElementById("deliveryName").value;
     const phone = document.getElementById("deliveryPhone").value;
+    const deliveryDate = document.getElementById("deliveryDate").value;
     const address = document.getElementById("deliveryAddress").value;
 
-    if (!name || !phone || !address) {
+    if (!name || !phone || !address || !deliveryDate) {
       this.showAlert(
         "Please fill in all required delivery information",
         "danger"
@@ -325,27 +326,35 @@ class Cart {
       'input[name="paymentMethod"]:checked'
     ).id;
     const notes = document.getElementById("deliveryNotes").value;
+    const subtotal = parseFloat(
+        document
+          .getElementById("checkoutSubtotal")
+          .textContent.replace("Rs", "")
+      );
 
     // Create order object
     const order = {
       items: this.cart,
-      customer: { name, phone, address, notes },
+      deliveryDate: deliveryDate,
+      status:"pending",
       paymentMethod,
-      subtotal: parseFloat(
-        document
-          .getElementById("checkoutSubtotal")
-          .textContent.replace("Rs", "")
-      ),
-      deliveryFee: parseFloat(
-        document.getElementById("deliveryFee").textContent.replace("Rs", "")
-      ),
-      tax: parseFloat(
-        document.getElementById("taxAmount").textContent.replace("Rs", "")
-      ),
+      user_id:'5TBHDIkC7XcYbqVysOhZiWiIMQ53',
+      user_email:"dileepaashen81@gmail.com",
+      user_name:name,
+      deliveryAddress: address,
+      specialNotes:notes,
+      user_mobile:phone,
+      subtotal: subtotal,
+      // deliveryFee: parseFloat(
+      //   document.getElementById("deliveryFee").textContent.replace("Rs", "")
+      // ),
+      // tax: parseFloat(
+      //   document.getElementById("taxAmount").textContent.replace("Rs", "")
+      // ),
       total: parseFloat(
         document.getElementById("checkoutTotal").textContent.replace("Rs", "")
       ),
-      date: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
     };
 
     // In a real app, you would send this to your backend

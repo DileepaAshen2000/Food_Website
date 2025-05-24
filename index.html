@@ -31,16 +31,17 @@
     <!-- CSS for Sidebar -->
     <style>
         .modal-backdrop {
-            z-index: 1040 !important; /* Ensure modal backdrop is above offcanvas */
+            z-index: 1040 !important;
         }
 
         .offcanvas {
-            z-index: 1050 !important; /* Ensure offcanvas is above modal backdrop */
+            z-index: 1050 !important;
         }
 
         .modal {
-            z-index: 1060 !important; /* Ensure modal is above everything */
+            z-index: 1060 !important;
         }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -114,7 +115,6 @@
             font-size: 24px;
             cursor: pointer;
         }
-        
     </style>
 
 </head>
@@ -122,76 +122,78 @@
 <body class="index-page">
 
     <header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container position-relative d-flex align-items-center justify-content-between">
+        <div class="container position-relative d-flex align-items-center justify-content-between">
 
-        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-            <img src="assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
-            <h1 class="sitename">Mensa</h1>
-            <span>.</span>
-        </a>
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <img src="assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
+                <h1 class="sitename">Mensa</h1>
+                <span>.</span>
+            </a>
 
-        <nav id="navmenu" class="navmenu">
-            <ul>
-                <li><a href="#hero" class="active">Home<br></a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#events">Events</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <div class="d-xl-none">
-                    <li class="dropdown"><a href="#"><span>Account</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Change Password</a></li>
-                            <li><a href="#">Logout</a></li>
-                        </ul>
-                    </li>
-                    <div class="d-flex p-4 justify-content-between align-content-center">
-                        <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
-                        <a class="btn-getstarted" href="index.html#book-a-table">Logout</a>
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="#hero" class="active">Home<br></a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <div class="d-xl-none">
+                        <li class="dropdown"><a href="#"><span>Account</span> <i
+                                    class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Change Password</a></li>
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                        </li>
+                        <div class="d-flex p-4 justify-content-between align-content-center">
+                            <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+                            <a class="btn-getstarted" href="index.html#book-a-table">Logout</a>
+                        </div>
                     </div>
+                </ul>
+
+                <div class="mobile-nav-toggle-wrapper d-xl-none" id="mobileAccountBtns">
+                    <div class="position-relative me-3" id="cartToggle" style="cursor: pointer; display: inline-block;">
+                        <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartBadge" style="font-size: 10px; ">
+                            0
+                        </span>
+                    </div>
+                    <i class="mobile-nav-toggle bi bi-list"></i>
                 </div>
-            </ul>
-            
-            <!-- Mobile Navigation Toggle with Cart Icon -->
-            <div class="mobile-nav-toggle-wrapper d-xl-none">
-                <div class="position-relative me-3" id="cartToggle" style="cursor: pointer; display: inline-block;">
+            </nav>
+
+            <div id="accountBtns" >
+                <div class="d-none d-xl-flex align-items-center justify-content-center" >
+                <div class="cart-toggle position-relative me-3" id="cartToggleDesktop" style="cursor: pointer;">
                     <i class="bi bi-cart3" style="font-size: 24px;"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        id="cartBadge" style="font-size: 10px; ">
+                        id="cartBadgeDesktop">
                         0
                     </span>
                 </div>
-                <i class="mobile-nav-toggle bi bi-list"></i>
+                <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
+                    id="account-icon"></i>
+                <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
             </div>
-        </nav>
-
-        <div class="d-none d-xl-flex align-items-center justify-content-center">
-            <div class="cart-toggle position-relative me-3" id="cartToggleDesktop" style="cursor: pointer;">
-                <i class="bi bi-cart3" style="font-size: 24px;"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                    id="cartBadgeDesktop">
-                    0
-                </span>
             </div>
-            <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
-                id="account-icon"></i>
-            <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
-        </div>
+            <a class="btn-getstarted" href="/pages/login.html" id="loginBtn">Login / Signup</a>
 
-        <!-- Sidebar Account Options (Initially Hidden) -->
-        <div id="sidebar" class="sidebar">
-            <button class="close-btn" onclick="toggleSidebar()">×</button>
-            <ul>
-                <li><a href="#" onclick="openLoginModal()"><i class="bi bi-person-fill"></i> Profile</a></li>
-                <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
-                <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-            </ul>
-        </div>
 
-    </div>
-</header>
+            <div id="sidebar" class="sidebar">
+                <button class="close-btn" onclick="toggleSidebar()">×</button>
+                <ul>
+                    <li><a href="#" onclick="openLoginModal()"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
+                    <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </header>
 
     <main class="main">
 
@@ -255,6 +257,24 @@
     <!-- ? Offcanvas -->
     <div id="cart-offcanvas-container"></div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const loginBtn = document.getElementById('loginBtn');
+            const accountBtns = document.getElementById('accountBtns');
+            const mobileAccountBtns = document.getElementById('mobileAccountBtns');
+
+            if (token) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (accountBtns) accountBtns.style.display = 'flex'; 
+            } else {
+                if (loginBtn) loginBtn.style.display = 'inline-block';
+                if (accountBtns) accountBtns.style.display = 'none';
+                if (mobileAccountBtns) mobileAccountBtns.style.display = 'none';
+
+            }
+        });
+    </script>
 
     <script>
         function toggleSidebar() {
@@ -445,6 +465,8 @@
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 
+
+
     <script>
         function openLoginModal() {
             fetch('pages/login.html')
@@ -500,11 +522,11 @@
     </script>
     <script src="/assets/js/cart.js"></script>
     <script>
-    fetch('/assets/components/cart-offcanvas.html')
-        .then(response => response.text())
-        .then(html => {
-        document.getElementById('cart-offcanvas-container').innerHTML = html;
-        });
+        fetch('/assets/components/cart-offcanvas.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('cart-offcanvas-container').innerHTML = html;
+            });
     </script>
 
 
