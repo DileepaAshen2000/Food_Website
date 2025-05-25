@@ -10,7 +10,6 @@ class Cart {
   }
 
   setupEventListeners() {
-    // Make sure to use proper event delegation for dynamic elements
     document.addEventListener("click", (e) => {
       if (e.target.closest("#cartToggle")) {
         this.renderCartItems();
@@ -34,7 +33,7 @@ class Cart {
         this.confirmOrder();
       }
 
-      // Handle quantity changes
+      //? Handle quantity changes
       if (e.target.closest('.cart-item [onclick*="updateQuantity"]')) {
         const match = e.target
           .getAttribute("onclick")
@@ -44,7 +43,7 @@ class Cart {
         }
       }
 
-      // Handle remove item
+      // ?Handle remove item
       if (e.target.closest('.cart-item [onclick*="removeItem"]')) {
         const match = e.target
           .closest('[onclick*="removeItem"]')
@@ -96,12 +95,13 @@ class Cart {
     const totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
     const badge = document.getElementById("cartBadge");
     const badgeDesktop = document.getElementById("cartBadgeDesktop");
-    if (badgeDesktop) 
-      {badgeDesktop.textContent = totalItems}
-    
-    if (badge){
-      badge.textContent = totalItems
-    };
+    if (badgeDesktop) {
+      badgeDesktop.textContent = totalItems;
+    }
+
+    if (badge) {
+      badge.textContent = totalItems;
+    }
   }
 
   renderCartCountForDesktop() {
@@ -132,7 +132,7 @@ class Cart {
     this.cart.forEach((item, index) => {
       let itemTotal = item.basePrice * item.quantity;
 
-      // Add variations prices
+      //! Add variations prices
       item.variations.forEach((variation) => {
         itemTotal += variation.additionalPrice * item.quantity;
       });
@@ -145,10 +145,10 @@ class Cart {
             <img src="${
               item.imageUrl || "https://via.placeholder.com/100?text=No+Image"
             }" 
-                 class="rounded me-3" 
-                 width="80" 
-                 height="80"
-                 alt="${item.name}">
+                class="rounded me-3" 
+                width="80" 
+                height="80"
+                alt="${item.name}">
             <div class="flex-grow-1">
               <h6 class="mb-1">${item.name}</h6>
               ${item.variations
@@ -170,8 +170,8 @@ class Cart {
         item.quantity - 1
       })">-</button>
                   <input type="text" class="form-control text-center" 
-                         value="${item.quantity}"
-                         onchange="cart.updateQuantity(${index}, parseInt(this.value))">
+                        value="${item.quantity}"
+                        onchange="cart.updateQuantity(${index}, parseInt(this.value))">
                   <button class="btn btn-outline-secondary" 
                           type="button"
                           onclick="cart.updateQuantity(${index}, ${
@@ -242,7 +242,7 @@ class Cart {
     this.cart.forEach((item, index) => {
       let itemTotal = item.basePrice * item.quantity;
 
-      // Add variations prices
+      //! Add variations prices
       item.variations.forEach((variation) => {
         itemTotal += variation.additionalPrice * item.quantity;
       });
@@ -256,10 +256,10 @@ class Cart {
                           item.imageUrl ||
                           "https://via.placeholder.com/80?text=No+Image"
                         }" 
-                             class="rounded me-3" 
-                             width="60" 
-                             height="60"
-                             alt="${item.name}">
+                            class="rounded me-3" 
+                            width="60" 
+                            height="60"
+                            alt="${item.name}">
                         <div class="flex-grow-1">
                             <h6 class="mb-1">${item.name}</h6>
                             ${item.variations
@@ -289,13 +289,13 @@ class Cart {
 
     container.innerHTML = itemsHTML;
 
-    // Calculate totals
+    //! Calculate totals
     const deliveryFee = 0;
     const taxRate = 0;
     const taxAmount = subtotal * taxRate;
     const total = subtotal + deliveryFee + taxAmount;
 
-    // Update summary
+    //! Update summary
     document.getElementById(
       "checkoutSubtotal"
     ).textContent = `Rs${subtotal.toFixed(2)}`;
@@ -327,23 +327,21 @@ class Cart {
     ).id;
     const notes = document.getElementById("deliveryNotes").value;
     const subtotal = parseFloat(
-        document
-          .getElementById("checkoutSubtotal")
-          .textContent.replace("Rs", "")
-      );
+      document.getElementById("checkoutSubtotal").textContent.replace("Rs", "")
+    );
 
-    // Create order object
+    //! Create order object
     const order = {
       items: this.cart,
       deliveryDate: deliveryDate,
-      status:"pending",
+      status: "pending",
       paymentMethod,
-      user_id:'5TBHDIkC7XcYbqVysOhZiWiIMQ53',
-      user_email:"dileepaashen81@gmail.com",
-      user_name:name,
+      user_id: "5TBHDIkC7XcYbqVysOhZiWiIMQ53",
+      user_email: "dileepaashen81@gmail.com",
+      user_name: name,
       deliveryAddress: address,
-      specialNotes:notes,
-      user_mobile:phone,
+      specialNotes: notes,
+      user_mobile: phone,
       subtotal: subtotal,
       // deliveryFee: parseFloat(
       //   document.getElementById("deliveryFee").textContent.replace("Rs", "")
@@ -357,28 +355,44 @@ class Cart {
       createdAt: new Date().toISOString(),
     };
 
-    // In a real app, you would send this to your backend
+    // todo : send order to backend
     console.log("Order confirmed:", order);
+    fetch("http://localhost:3000/api/orders/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((response) => {
+        if (!response.status) {
+          throw new Error("Failed to place order");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Order saved to backend:", data);
 
-    // Show success message
-    this.showAlert("Order confirmed successfully!", "success");
+        this.showAlert("Order confirmed successfully!", "success");
 
-    // Clear cart
-    this.cart = [];
-    this.saveCart();
-    this.renderCartItems();
+        this.cart = [];
+        this.saveCart();
+        this.renderCartItems();
 
-    // Close modal
-    const checkoutModal = bootstrap.Modal.getInstance(
-      document.getElementById("checkoutModal")
-    );
-    checkoutModal.hide();
+        const checkoutModal = bootstrap.Modal.getInstance(
+          document.getElementById("checkoutModal")
+        );
+        checkoutModal?.hide();
 
-    // Close cart offcanvas if open
-    const cartOffcanvas = bootstrap.Offcanvas.getInstance(
-      document.getElementById("cartOffcanvas")
-    );
-    if (cartOffcanvas) cartOffcanvas.hide();
+        const cartOffcanvas = bootstrap.Offcanvas.getInstance(
+          document.getElementById("cartOffcanvas")
+        );
+        cartOffcanvas?.hide();
+      })
+      .catch((error) => {
+        console.error("Error placing order:", error);
+        this.showAlert("Failed to place order. Please try again.", "danger");
+      });
   }
 
   showAlert(message, type) {
@@ -390,20 +404,17 @@ class Cart {
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
 
-    // Add to modal body or create a container if needed
     const modalBody = document.querySelector("#checkoutModal .modal-body");
     const existingAlert = modalBody.querySelector(".alert");
     if (existingAlert) existingAlert.remove();
 
     modalBody.prepend(alert);
 
-    // Auto dismiss after 5 seconds
     setTimeout(() => {
       const bsAlert = new bootstrap.Alert(alert);
       bsAlert.close();
     }, 5000);
   }
 }
-
 
 const cart = new Cart();
