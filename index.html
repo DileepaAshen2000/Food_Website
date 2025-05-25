@@ -180,8 +180,8 @@
                 <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
             </div>
             </div>
+            <!-- <a class="btn-getstarted" onclick="openLoginModal()" id="loginBtn">Login / Signup</a> -->
             <a class="btn-getstarted" href="/pages/login.html" id="loginBtn">Login / Signup</a>
-
 
             <div id="sidebar" class="sidebar">
                 <button class="close-btn" onclick="toggleSidebar()">×</button>
@@ -257,22 +257,28 @@
     <!-- ? Offcanvas -->
     <div id="cart-offcanvas-container"></div>
 
-    <script>
+    <script type="module">
+        import { auth } from '/assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
         document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('token');
             const loginBtn = document.getElementById('loginBtn');
             const accountBtns = document.getElementById('accountBtns');
             const mobileAccountBtns = document.getElementById('mobileAccountBtns');
 
-            if (token) {
-                if (loginBtn) loginBtn.style.display = 'none';
-                if (accountBtns) accountBtns.style.display = 'flex'; 
-            } else {
-                if (loginBtn) loginBtn.style.display = 'inline-block';
-                if (accountBtns) accountBtns.style.display = 'none';
-                if (mobileAccountBtns) mobileAccountBtns.style.display = 'none';
-
-            }
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    console.log("User is logged in:", user.email);
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (accountBtns) accountBtns.style.display = 'flex';
+                } else {
+                    console.log("No user is signed in.");
+                    if (loginBtn) loginBtn.style.display = 'inline-block';
+                    if (accountBtns) accountBtns.style.display = 'none';
+                    if (mobileAccountBtns) mobileAccountBtns.style.display = 'none';
+                }
+            });
         });
     </script>
 
@@ -466,7 +472,6 @@
     <script src="assets/js/main.js"></script>
 
 
-
     <script>
         function openLoginModal() {
             fetch('pages/login.html')
@@ -520,7 +525,7 @@
             }
         });
     </script>
-    <script src="/assets/js/cart.js"></script>
+    <script src="/assets/js/cart.js" type="module"></script>
     <script>
         fetch('/assets/components/cart-offcanvas.html')
             .then(response => response.text())

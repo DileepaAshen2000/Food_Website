@@ -150,25 +150,13 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-    <script>
-        // Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyDpAmPGgRt3gtjTAHOldZKdj-_iAd6IQag",
-            authDomain: "mensa-foods.firebaseapp.com",
-            databaseURL: "https://mensa-foods-default-rtdb.firebaseio.com",
-            projectId: "mensa-foods",
-            storageBucket: "mensa-foods.firebasestorage.app",
-            messagingSenderId: "397172133190",
-            appId: "1:397172133190:web:e8df9ff4c89de623e8a947"
-        };
+    <script type="module" src="/assets/js/firebase-config.js"></script>
+    <script type="module" src="/assets/js/firebase-service.js"></script>
+    <script type="module" src="/assets/js/auth-handler.js"></script>
+    <!-- <script src="/assets/js/auth-handler.js"></script> -->
+    <!-- <script>
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // Toggle Functions
+        // Toggle UI functions
         function toggleForms() {
             document.getElementById('loginForm').classList.toggle('active');
             document.getElementById('signupForm').classList.toggle('active');
@@ -192,14 +180,13 @@
         window.showLogin = showLogin;
 
         document.addEventListener("DOMContentLoaded", function () {
-            const signupForm = document.getElementById("signupFormElement");
-            signupForm.addEventListener("submit", async function (e) {
+            document.getElementById("signupFormElement").addEventListener("submit", async function (e) {
                 e.preventDefault();
 
-                const fullname = signupForm.querySelector("input[name='fullname']").value;
-                const email = signupForm.querySelector("input[name='email']").value;
-                const password = signupForm.querySelector("input[name='password']").value;
-                const confirmPassword = signupForm.querySelector("input[name='confirmPassword']").value;
+                const fullname = this.querySelector("input[name='fullname']").value;
+                const email = this.querySelector("input[name='email']").value;
+                const password = this.querySelector("input[name='password']").value;
+                const confirmPassword = this.querySelector("input[name='confirmPassword']").value;
 
                 if (password !== confirmPassword) {
                     alert("Passwords do not match!");
@@ -224,40 +211,42 @@
                 }
             });
 
-            document.getElementById("loginFormElement").addEventListener("submit", function (e) {
+            document.getElementById("loginFormElement").addEventListener("submit", async function (e) {
                 e.preventDefault();
                 const email = e.target.querySelector('input[type="email"]').value;
                 const password = e.target.querySelector('input[type="password"]').value;
 
-                auth.signInWithEmailAndPassword(email, password)
-                    .then(() => alert("Login successful!"))
-                    .catch((error) => alert("Login failed: " + error.message));
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    alert("Login successful!");
+                } catch (error) {
+                    alert("Login failed: " + error.message);
+                }
             });
 
-            document.getElementById("forgotPasswordFormElement").addEventListener("submit", function (e) {
+            document.getElementById("forgotPasswordFormElement").addEventListener("submit", async function (e) {
                 e.preventDefault();
                 const email = e.target.querySelector('input[type="email"]').value;
 
-                auth.sendPasswordResetEmail(email)
-                    .then(() => alert("Password reset email sent!"))
-                    .catch((error) => alert("Error: " + error.message));
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    alert("Password reset email sent!");
+                } catch (error) {
+                    alert("Error: " + error.message);
+                }
+            });
+
+            // Bind Google button click
+            document.getElementById("googleLoginBtn").addEventListener("click", async () => {
+                try {
+                    await signInWithGoogle();
+                    alert("Google Sign-In Successful!");
+                } catch (error) {
+                    alert("Google login error: " + error.message);
+                }
             });
         });
-
-        function signInWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    const user = result.user;
-                    console.log("User logged in:", user);
-                    // Optionally close the modal or redirect
-                })
-                .catch((error) => {
-                    console.error("Google login error:", error.message);
-                });
-        }
-    </script>
+    </script> -->
 </head>
 
 <section class="login-section max-width-full lg:max-width-0.5" id="login">
@@ -272,8 +261,8 @@
             <a href="#" onclick="showForgotPassword()">Forgot password?</a>
             <input type="submit" class="button" value="Login">
         </form>
-        <button onclick="signInWithGoogle()" class="google-btn mx-auto mb-5">
-            <img src="../assets/img/google-icon.png" alt="Google" /> Sign In with
+        <button class="google-btn mx-auto mb-5" id="googleLoginBtn">
+            <img src="/assets/img/logo.png" alt="Google" /> Sign In with
             Google
         </button>
 

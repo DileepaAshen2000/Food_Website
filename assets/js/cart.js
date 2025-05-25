@@ -1,3 +1,8 @@
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 class Cart {
   constructor() {
     this.cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -330,69 +335,94 @@ class Cart {
       document.getElementById("checkoutSubtotal").textContent.replace("Rs", "")
     );
 
+    const auth = getAuth();
     //! Create order object
-    const order = {
-      items: this.cart,
-      deliveryDate: deliveryDate,
-      status: "pending",
-      paymentMethod,
-      user_id: "5TBHDIkC7XcYbqVysOhZiWiIMQ53",
-      user_email: "dileepaashen81@gmail.com",
-      user_name: name,
-      deliveryAddress: address,
-      specialNotes: notes,
-      user_mobile: phone,
-      subtotal: subtotal,
-      // deliveryFee: parseFloat(
-      //   document.getElementById("deliveryFee").textContent.replace("Rs", "")
-      // ),
-      // tax: parseFloat(
-      //   document.getElementById("taxAmount").textContent.replace("Rs", "")
-      // ),
-      total: parseFloat(
-        document.getElementById("checkoutTotal").textContent.replace("Rs", "")
-      ),
-      createdAt: new Date().toISOString(),
-    };
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const order = {
+          items: this.cart,
+          deliveryDate: deliveryDate,
+          status: "pending",
+          paymentMethod,
+          user_id: user.uid,
+          user_email: user.email,
+          user_name: name || user.displayName,
+          deliveryAddress: address,
+          specialNotes: notes,
+          user_mobile: phone,
+          subtotal: subtotal,
+          total: parseFloat(
+            document
+              .getElementById("checkoutTotal")
+              .textContent.replace("Rs", "")
+          ),
+          createdAt: new Date().toISOString(),
+        };
 
-    // todo : send order to backend
-    console.log("Order confirmed:", order);
-    fetch("http://localhost:3000/api/orders/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    })
-      .then((response) => {
-        if (!response.status) {
-          throw new Error("Failed to place order");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Order saved to backend:", data);
+        console.log("Order confirmed:", order);
 
-        this.showAlert("Order confirmed successfully!", "success");
+        // TODO: send to backend
+        fetch("http://localhost:3000/api/orders/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(order),
+        })
+          .then((response) => {
+            if (!response.status) {
+              throw new Error("Failed to place order");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Order saved to backend:", data);
 
-        this.cart = [];
-        this.saveCart();
-        this.renderCartItems();
+            this.showAlert("Order confirmed successfully!", "success");
+            Swal.fire({
+              toast: true,
+              position: "top-end",
+              icon: "success",
+              title: 'Order added successfully.',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            })
 
-        const checkoutModal = bootstrap.Modal.getInstance(
-          document.getElementById("checkoutModal")
-        );
-        checkoutModal?.hide();
+            this.cart = [];
+            this.saveCart();
+            this.renderCartItems();
 
-        const cartOffcanvas = bootstrap.Offcanvas.getInstance(
-          document.getElementById("cartOffcanvas")
-        );
-        cartOffcanvas?.hide();
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-        this.showAlert("Failed to place order. Please try again.", "danger");
-      });
+            const checkoutModal = bootstrap.Modal.getInstance(
+              document.getElementById("checkoutModal")
+            );
+            checkoutModal?.hide();
+
+            const cartOffcanvas = bootstrap.Offcanvas.getInstance(
+              document.getElementById("cartOffcanvas")
+            );
+            cartOffcanvas?.hide();
+          })
+          .catch((error) => {
+            console.error("Error placing order:", error);
+            this.showAlert(
+              "Failed to place order. Please try again.",
+              "danger"
+            );
+            Swal.fire({
+              toast: true,
+              position: "top-end",
+              icon: "error",
+              title: 'Failed to place order. Please try again.',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            })
+          });
+      } else {
+        this.showAlert("You must be logged in to confirm an order.", "danger");
+      }
+    });
   }
 
   showAlert(message, type) {
