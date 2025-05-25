@@ -5,7 +5,9 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   googleProvider,
-  signInWithPopup
+  signInWithPopup,
+  signOut,
+  deleteUser
 } from './firebase-config.js';
 
 //! Email/Password Sign Up
@@ -44,6 +46,31 @@ export async function signInWithGoogle() {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     return { success: true, user: result.user };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+// !LOGOUT FUNCTION
+export async function logoutUser() {
+  try {
+    await signOut(auth);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+//! DELETE ACCOUNT FUNCTION
+export async function deleteAccount() {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      await deleteUser(user);
+      return { success: true };
+    } else {
+      return { success: false, error: "No user is currently signed in." };
+    }
   } catch (error) {
     return { success: false, error: error.message };
   }
