@@ -6,7 +6,9 @@ import {
   signInWithEmailAndPassword, 
   sendPasswordResetEmail,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  signOut,
+  deleteUser
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -30,5 +32,7 @@ export {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   googleProvider,
-  signInWithPopup
+  signInWithPopup,
+  signOut,
+  deleteUser
 };

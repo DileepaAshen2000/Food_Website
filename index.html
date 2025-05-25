@@ -25,6 +25,8 @@
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
@@ -175,8 +177,10 @@
                         0
                     </span>
                 </div>
-                <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
-                    id="account-icon"></i>
+                <div class="d-none d-xl-flex align-items-center justify-content-center">
+                        <img src="/assets/img/avatar.png" alt="User" width="40" height="40"
+                            class="userPhoto rounded-circle me-2" id="account-icon">
+                </div>
                 <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
             </div>
             </div>
@@ -269,7 +273,13 @@
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
+                    const photo = user.photoURL || "/assets/img/avatar.png";
                     console.log("User is logged in:", user.email);
+                    document.querySelectorAll('.userPhoto').forEach(el => {
+                        el.src = photo;
+                    });
+
+
                     if (loginBtn) loginBtn.style.display = 'none';
                     if (accountBtns) accountBtns.style.display = 'flex';
                 } else {
@@ -283,16 +293,10 @@
     </script>
 
     <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            if (sidebar.style.right === "-250px") {
-                sidebar.style.right = "0"; // Show sidebar
-            } else {
-                sidebar.style.right = "-250px"; // Hide sidebar
-            }
-        }
         // Open sidebar when clicking the account icon
-        document.getElementById("account-icon").addEventListener("click", toggleSidebar);
+        document.getElementById("account-icon").addEventListener("click", () => {
+            window.location.href = '/pages/myProfile.html'
+        });
 
         async function loadComponents() {
             const components = [

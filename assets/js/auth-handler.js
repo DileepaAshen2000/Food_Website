@@ -3,7 +3,9 @@ import {
   signUpWithEmail, 
   signInWithEmail, 
   sendPasswordReset, 
-  signInWithGoogle 
+  signInWithGoogle ,
+  logoutUser,
+  deleteAccount
 } from './firebase-service.js';
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -71,6 +73,28 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Google login error: " + result.error);
     }
   });
+
+  //! LOGOUT
+  document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+  const result = await logoutUser();
+  if (result.success) {
+    alert("Logged out successfully!");
+    window.location.href = "/index.html";
+  } else {
+    alert("Logout error: " + result.error);
+  }
+});
+
+//! DELETE ACCOUNT
+document.getElementById("confirmDeleteBtn")?.addEventListener("click", async () => {
+    const result = await deleteAccount();
+    if (result.success) {
+      alert("Account deleted successfully!");
+      window.location.href = "/index.html"; 
+    } else {
+      alert("Delete error: " + result.error);
+    }
+});
 });
 
 
