@@ -257,8 +257,10 @@
                             0
                         </span>
                     </div>
-                    <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
-                        id="account-icon"></i>
+                    <div class="d-none d-xl-flex align-items-center justify-content-center">
+                        <img src="/assets/img/avatar.png" alt="User" width="40" height="40"
+                            class="userPhoto rounded-circle me-2" style="cursor:pointer" id="account-icon">
+                    </div>
                     <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
                 </div>
             </div>
@@ -416,6 +418,12 @@
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     console.log("User is logged in:", user.email);
+
+                    const photo = user.photoURL || "/assets/img/avatar.png";
+                    console.log("User is logged in:", user.email);
+                    document.querySelectorAll('.userPhoto').forEach(el => {
+                        el.src = photo;
+                    });
                     if (loginBtn) loginBtn.style.display = 'none';
                     if (accountBtns) accountBtns.style.display = 'flex';
                 } else {
@@ -492,7 +500,9 @@
             }
         }
         // Open sidebar when clicking the account icon
-        document.getElementById("account-icon").addEventListener("click", toggleSidebar);
+       document.getElementById("account-icon").addEventListener("click", () => {
+            window.location.href = '/pages/myProfile.html'
+        });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

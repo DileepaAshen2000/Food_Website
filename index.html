@@ -178,8 +178,8 @@
                     </span>
                 </div>
                 <div class="d-none d-xl-flex align-items-center justify-content-center">
-                        <img src="/assets/img/avatar.png" alt="User" width="40" height="40"
-                            class="userPhoto rounded-circle me-2" id="account-icon">
+                        <img src="/assets/img/avatar.png" alt="User" width="40" height="35"
+                            class="userPhoto rounded-circle me-2" style="cursor:pointer" id="account-icon">
                 </div>
                 <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
             </div>
@@ -218,7 +218,8 @@
         <!-- /Stats Section -->
 
 
-        <div id="menu-container"></div>
+        <!-- <div id="menu-container"></div> -->
+        <section id="menu" class="menu section"></section>
 
         <!-- Testimonials Section -->
         <div id="testimonials-container"></div>
@@ -260,6 +261,7 @@
 
     <!-- ? Offcanvas -->
     <div id="cart-offcanvas-container"></div>
+    <script src="/assets/js/menu.js"></script>
 
     <script type="module">
         import { auth } from '/assets/js/firebase-config.js';
@@ -304,7 +306,7 @@
                 { id: 'about-container', file: 'assets/components/about.html' },
                 { id: 'why-us-container', file: 'assets/components/why-us.html' },
                 { id: 'stats-container', file: 'assets/components/stats.html' },
-                { id: 'menu-container', file: 'assets/components/menu.html' },
+                // { id: 'menu-container', file: 'assets/components/menu.html' },
                 { id: 'testimonials-container', file: 'assets/components/testimonials.html' },
                 { id: 'events-container', file: 'assets/components/events.html' },
                 { id: 'chefs-container', file: 'assets/components/chefs.html' },
