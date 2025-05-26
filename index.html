@@ -25,11 +25,25 @@
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
     <!-- CSS for Sidebar -->
     <style>
+        .modal-backdrop {
+            z-index: 1040 !important;
+        }
+
+        .offcanvas {
+            z-index: 1050 !important;
+        }
+
+        .modal {
+            z-index: 1060 !important;
+        }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -139,19 +153,39 @@
                             <a class="btn-getstarted" href="index.html#book-a-table">Logout</a>
                         </div>
                     </div>
-
                 </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+                <div class="mobile-nav-toggle-wrapper d-xl-none" id="mobileAccountBtns">
+                    <div class="position-relative me-3" id="cartToggle" style="cursor: pointer; display: inline-block;">
+                        <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartBadge" style="font-size: 10px; ">
+                            0
+                        </span>
+                    </div>
+                    <i class="mobile-nav-toggle bi bi-list"></i>
+                </div>
             </nav>
 
-            <div class="d-none d-xl-flex align-items-center justify-content-center">
-                <!-- <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px;"></i> -->
-                <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
-                    id="account-icon"></i>
-                <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+            <div id="accountBtns">
+                <div class="d-none d-xl-flex align-items-center justify-content-center">
+                    <div class="cart-toggle position-relative me-3" id="cartToggleDesktop" style="cursor: pointer;">
+                        <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartBadgeDesktop">
+                            0
+                        </span>
+                    </div>
+                    <div class="d-none d-xl-flex align-items-center justify-content-center">
+                        <img src="/assets/img/avatar.png" alt="User" width="40" height="40"
+                            class="userPhoto rounded-circle me-2" id="account-icon">
+                    </div>
+                    <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+                </div>
             </div>
+            <!-- <a class="btn-getstarted" onclick="openLoginModal()" id="loginBtn">Login / Signup</a> -->
+            <a class="btn-getstarted" href="/pages/login.html" id="loginBtn">Login / Signup</a>
 
-            <!-- Sidebar Account Options (Initially Hidden) -->
             <div id="sidebar" class="sidebar">
                 <button class="close-btn" onclick="toggleSidebar()">×</button>
                 <ul>
@@ -223,27 +257,44 @@
         </div>
     </div>
 
+    <!-- ? Offcanvas -->
+    <div id="cart-offcanvas-container"></div>
+
+    <script type="module">
+        import { auth } from '/assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const loginBtn = document.getElementById('loginBtn');
+            const accountBtns = document.getElementById('accountBtns');
+            const mobileAccountBtns = document.getElementById('mobileAccountBtns');
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    const photo = user.photoURL || "/assets/img/avatar.png";
+                    console.log("User is logged in:", user.email);
+                    document.querySelectorAll('.userPhoto').forEach(el => {
+                        el.src = photo;
+                    });
+
+
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (accountBtns) accountBtns.style.display = 'flex';
+                } else {
+                    console.log("No user is signed in.");
+                    if (loginBtn) loginBtn.style.display = 'inline-block';
+                    if (accountBtns) accountBtns.style.display = 'none';
+                    if (mobileAccountBtns) mobileAccountBtns.style.display = 'none';
+                }
+            });
+        });
+    </script>
 
     <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            if (sidebar.style.right === "-250px") {
-                sidebar.style.right = "0"; // Show sidebar
-            } else {
-                sidebar.style.right = "-250px"; // Hide sidebar
-            }
-        }
         // Open sidebar when clicking the account icon
-        // document.getElementById("account-icon").addEventListener("click", toggleSidebar);
-
-        // Replace sidebar toggle with modal or redirect
         document.getElementById("account-icon").addEventListener("click", () => {
-            const isLoggedIn = localStorage.getItem("isLoggedIn"); // Use sessionStorage if preferred
-            if (isLoggedIn === "true") {
-                window.location.href = "./pages/ProfilePage.html";
-            } else {
-                openLoginModal();
-            }
+            window.location.href = '/pages/myProfile.html'
         });
 
         async function loadComponents() {
@@ -418,9 +469,11 @@
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
 
     <script>
         function openLoginModal() {
@@ -474,6 +527,14 @@
                 closeModal();
             }
         });
+    </script>
+    <script src="/assets/js/cart.js" type="module"></script>
+    <script>
+        fetch('/assets/components/cart-offcanvas.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('cart-offcanvas-container').innerHTML = html;
+            });
     </script>
 
 

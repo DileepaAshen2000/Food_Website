@@ -8,10 +8,59 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="/assets/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+
     <style>
         body {
             font-family: "Inter", sans-serif;
             background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            /* Hidden initially */
+            width: 250px;
+            height: 100%;
+            background: #333;
+            color: white;
+            padding-top: 60px;
+            transition: 0.3s;
+            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar ul li a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
         }
 
         .product-hero {
@@ -117,7 +166,9 @@
         .loading-container {
             position: relative;
         }
+        
 
+       
         @media (max-width: 768px) {
 
             .product-image,
@@ -153,9 +204,8 @@
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-                <!-- Uncomment the line below if you also wish to use an image logo -->
-                <!-- <img src="assets/img/mensa_logo.png" alt=""> -->
+            <a href="/index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+
                 <img src="/assets/img/mensa_logo.png" alt="Mensa Logo" style="width: 60px; height: auto;">
                 <h1 class="sitename">Mensa</h1>
                 <span>.</span>
@@ -185,14 +235,44 @@
                     </div>
 
                 </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                <!-- Mobile Navigation Toggle with Cart Icon -->
+                <div class="mobile-nav-toggle-wrapper d-xl-none" id="mobileAccountBtns">
+                    <div class="position-relative me-3" id="cartToggle" style="cursor: pointer; display: inline-block;">
+                        <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartBadge" style="font-size: 10px; ">
+                            0
+                        </span>
+                    </div>
+
+                </div>
             </nav>
 
-            <div class="d-none d-xl-flex align-items-center justify-content-center">
-                <!-- <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px;"></i> -->
-                <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
-                    id="account-icon"></i>
-                <a class="btn-getstarted" href="/index.html#book-a-table">Get a Quote</a>
+            <div id="accountBtns">
+                <div class="d-none d-xl-flex align-items-center justify-content-center">
+                    <div class="cart-toggle position-relative me-3" id="cartToggleDesktop" style="cursor: pointer;">
+                        <i class="bi bi-cart3" style="font-size: 24px;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartBadgeDesktop">
+                            0
+                        </span>
+                    </div>
+                    <i class="bi bi-person-circle" style="font-size: 32px; margin-right: 10px; cursor: pointer;"
+                        id="account-icon"></i>
+                    <a class="btn-getstarted" href="index.html#book-a-table">Get a Quote</a>
+                </div>
+            </div>
+            <!-- <a class="btn-getstarted" onclick="openLoginModal()" id="loginBtn">Login / Signup</a> -->
+            <a class="btn-getstarted" href="/pages/login.html" id="loginBtn">Login / Signup</a>
+
+            <!-- Sidebar Account Options (Initially Hidden) -->
+            <div id="sidebar" class="sidebar">
+                <button class="close-btn" onclick="toggleSidebar()">×</button>
+                <ul>
+                    <li><a href="#"><i class="bi bi-person-fill"></i> Profile</a></li>
+                    <li><a href="#"><i class="bi bi-shield-lock-fill"></i> Change Password</a></li>
+                    <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                </ul>
             </div>
 
 
@@ -210,28 +290,24 @@
     <section class="product-hero">
         <div class="container">
             <div class="row">
-                <!-- Product Images -->
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner" id="carouselInner">
-                            <!-- Carousel items will be dynamically inserted here -->
+
                             <div class="no-image-placeholder">
                                 <i class="bi bi-image" style="font-size: 3rem"></i>
                                 <p class="mt-2">No images available</p>
                             </div>
                         </div>
                         <div class="carousel-indicators" id="carouselIndicators">
-                            <!-- Indicators will be dynamically inserted here -->
                         </div>
                     </div>
 
-                    <!-- Thumbnail navigation -->
                     <div class="d-flex justify-content-center mt-3" id="thumbnailContainer">
-                        <!-- Thumbnails will be dynamically inserted here -->
                     </div>
                 </div>
 
-                <!-- Product Details -->
+                <!--? Product Details -->
                 <div class="col-lg-6">
                     <h1 class="product-title" id="productName">Product Name</h1>
                     <div class="product-price" id="productPrice">Rs0</div>
@@ -239,10 +315,8 @@
                         Product description
                     </p>
 
-                    <!-- Variations will be dynamically inserted here -->
                     <div id="variationsContainer"></div>
 
-                    <!-- Quantity Selector -->
                     <div class="mb-4">
                         <label for="quantity" class="variation-label">Quantity</label>
                         <div class="input-group" style="max-width: 150px">
@@ -256,12 +330,10 @@
                         </div>
                     </div>
 
-                    <!-- Add to Cart Button -->
                     <button class="btn btn-danger add-to-cart-btn mb-4" id="addToCartBtn">
                         <i class="bi bi-cart-plus me-2"></i>Add to Cart
                     </button>
 
-                    <!-- Product Details Accordion -->
                     <div class="accordion mb-4" id="productAccordion">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
@@ -307,12 +379,11 @@
         </div>
     </section>
 
-    <!-- Related Products -->
+    <!-- ? Related Products -->
     <section class="py-5 bg-white">
         <div class="container">
             <h2 class="text-center mb-5">You May Also Like</h2>
             <div class="row" id="relatedProducts">
-                <!-- Related products will be dynamically inserted here -->
             </div>
         </div>
     </section>
@@ -320,10 +391,110 @@
     <!-- Footer -->
     <div id="footer-container"></div>
 
+    <!-- Login/ Sign Up forms -->
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content" id="authModalContent">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <!-- Login form will be loaded here -->
+        </div>
+    </div>
 
+    <!-- ? Offcanvas -->
+    <div id="cart-offcanvas-container"></div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { auth } from '/assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const loginBtn = document.getElementById('loginBtn');
+            const accountBtns = document.getElementById('accountBtns');
+            const mobileAccountBtns = document.getElementById('mobileAccountBtns');
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    console.log("User is logged in:", user.email);
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (accountBtns) accountBtns.style.display = 'flex';
+                } else {
+                    console.log("No user is signed in.");
+                    if (loginBtn) loginBtn.style.display = 'inline-block';
+                    if (accountBtns) accountBtns.style.display = 'none';
+                    if (mobileAccountBtns) mobileAccountBtns.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function openLoginModal() {
+            fetch('/pages/login.html')
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const loginSection = doc.querySelector('.login-section');
+                    const styleTags = doc.querySelectorAll('style');
+                    const scriptTags = doc.querySelectorAll('script');
+
+                    // Inject styles
+                    styleTags.forEach(style => {
+                        const newStyle = document.createElement('style');
+                        newStyle.innerHTML = style.innerHTML;
+                        document.head.appendChild(newStyle);
+                    });
+
+                    // Inject login section
+                    if (loginSection) {
+                        document.getElementById('authModalContent').innerHTML = `
+          <span class="close" onclick="closeModal()">&times;</span>
+          ${loginSection.outerHTML}
+        `;
+                        document.getElementById('authModal').style.display = 'block';
+                    }
+
+                    // Inject scripts
+                    scriptTags.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.innerHTML = script.innerHTML;
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                });
+        }
+
+
+        function closeModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        // Optional: Close modal on outside click
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('authModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Load footer content
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.right === "-250px") {
+                sidebar.style.right = "0";
+            } else {
+                sidebar.style.right = "-250px";
+            }
+        }
+        // Open sidebar when clicking the account icon
+        document.getElementById("account-icon").addEventListener("click", toggleSidebar);
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             fetch('/assets/components/footer.html')
                 .then(response => {
@@ -335,7 +506,6 @@
                 .then(html => {
                     document.getElementById('footer-container').innerHTML = html;
 
-                    // Optional: Initialize any components that need JS after loading
                     initializeFooterComponents();
                 })
                 .catch(error => {
@@ -348,8 +518,7 @@
                 });
 
             function initializeFooterComponents() {
-                // Add any JavaScript that needs to run after footer loads
-                // For example, tooltips, event listeners, etc.
+
             }
         });
     </script>
@@ -597,11 +766,43 @@
                         };
 
                         console.log("Added to cart:", cartItem);
+                        addToCart(cartItem);
 
-                        alert(`${quantity} ${productName} added to cart!`);
+                        // alert(`${quantity} ${productName} added to cart!`);
+
                     });
 
                 updateTotalPrice();
+
+                //? save product in local storage 
+                function addToCart(product) {
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                    const existing = cart.find(item =>
+                        item.id === product.id &&
+                        JSON.stringify(item.variations) === JSON.stringify(product.variations)
+                    );
+
+                    if (existing) {
+                        existing.quantity += product.quantity;
+                        existing.totalPrice += product.totalPrice;
+                    } else {
+                        cart.push(product);
+                    }
+
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: `${product.quantity} ${product.name} added to cart!`,
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
 
                 // Load related products (excluding current product)
                 const relatedProducts = apiResponse.data
@@ -639,6 +840,15 @@
             fetchProductData();
         });
     </script>
+    <script src="/assets/js/cart.js" type="module"></script>
+    <script>
+        fetch('/assets/components/cart-offcanvas.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('cart-offcanvas-container').innerHTML = html;
+            });
+    </script>
+
 </body>
 
 </html>
