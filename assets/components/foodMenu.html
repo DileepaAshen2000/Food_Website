@@ -1,0 +1,256 @@
+<style>
+    /* Menu Section Styling */
+    .menu .section-title h2 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        position: relative;
+        color: #5f5950;
+    }
+    
+    .menu .section-title h2::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 80px;
+        height: 2px;
+        background: #ffb03b;
+        bottom: 0;
+        left: calc(50% - 40px);
+    }
+    
+    .menu .section-title p {
+        margin-bottom: 0;
+        font-size: 14px;
+        color: #a7a7a7;
+    }
+    
+    .menu .section-title .description-title {
+        color: #ffb03b;
+        font-weight: 700;
+    }
+    
+    /* Menu Tabs */
+    .menu .nav-tabs {
+        border: 0;
+        margin-bottom: 30px;
+    }
+    
+    .menu .nav-tabs .nav-link {
+        border: 0;
+        padding: 12px 15px;
+        transition: 0.3s;
+        color: #5f5950;
+        border-radius: 0;
+        border-right: 1px solid #e9ecef;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    
+    .menu .nav-tabs .nav-link:hover {
+        color: #ffb03b;
+    }
+    
+    .menu .nav-tabs .nav-link.active {
+        color: #ffb03b;
+        background: transparent;
+        border-color: #e9ecef;
+    }
+    
+    .menu .nav-tabs .nav-link:last-child {
+        border-right: 0;
+    }
+    
+    /* Menu Items */
+    .menu .menu-item {
+        margin-bottom: 30px;
+    }
+    
+    .menu .menu-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    
+    .menu .menu-img:hover {
+        transform: scale(1.03);
+    }
+    
+    .menu .menu-content {
+        margin-top: 15px;
+    }
+    
+    .menu .menu-content h4 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #5f5950;
+        margin-bottom: 5px;
+    }
+    
+    .menu .menu-content .ingredients {
+        font-style: italic;
+        font-size: 14px;
+        color: #948c81;
+        margin-bottom: 5px;
+    }
+    
+    .menu .menu-content .price {
+        font-weight: 700;
+        color: #ffb03b;
+        font-size: 18px;
+    }
+    
+    /* Tab Header */
+    .menu .tab-header {
+        margin-bottom: 30px;
+    }
+    
+    .menu .tab-header p {
+        font-size: 14px;
+        color: #a7a7a7;
+        margin-bottom: 0;
+    }
+    
+    .menu .tab-header h3 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #5f5950;
+        margin-top: 5px;
+    }
+</style>
+
+
+
+<!-- Menu Section -->
+<section id="menu" class="menu section">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Our Menu</h2>
+        <p>
+            <span>Check Our</span> <span class="description-title">Yummy Menu</span>
+        </p>
+    </div>
+
+    <div class="container">
+        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100" id="menuTabs">
+            <!-- Tabs will be dynamically generated here -->
+        </ul>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="200" id="menuContent">
+            <!-- Content will be dynamically generated here -->
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Fetch menu data from API
+        fetch("http://127.0.0.1:3000/api/foods/names/ids")
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status && data.data) {
+                    renderMenu(data.data);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching menu:", error);
+            });
+
+        function renderMenu(menuItems) {
+            const categories = {
+                starters: [],
+                breakfast: [],
+                lunch: [],
+                dinner: [],
+            };
+
+            // Distribute items into categories
+            menuItems.forEach((item, index) => {
+                if (index % 4 === 0) categories.starters.push(item);
+                else if (index % 4 === 1) categories.breakfast.push(item);
+                else if (index % 4 === 2) categories.lunch.push(item);
+                else categories.dinner.push(item);
+            });
+
+            const tabsContainer = document.getElementById("menuTabs");
+            const contentContainer = document.getElementById("menuContent");
+
+            let firstTab = true;
+
+            for (const [categoryId, items] of Object.entries(categories)) {
+                if (items.length === 0) continue;
+
+                // Create tab
+                const tabItem = document.createElement("li");
+                tabItem.className = "nav-item";
+
+                const tabLink = document.createElement("a");
+                tabLink.className = `nav-link ${firstTab ? "active show" : ""}`;
+                tabLink.setAttribute("data-bs-toggle", "tab");
+                tabLink.setAttribute("data-bs-target", `#menu-${categoryId}`);
+                tabLink.innerHTML = `<h4 class="mb-0">${categoryId.charAt(0).toUpperCase() + categoryId.slice(1)}</h4>`;
+                tabItem.appendChild(tabLink);
+                tabsContainer.appendChild(tabItem);
+
+                // Create content pane
+                const contentPane = document.createElement("div");
+                contentPane.className = `tab-pane fade ${firstTab ? "active show" : ""}`;
+                contentPane.id = `menu-${categoryId}`;
+
+                // Add tab header
+                const tabHeader = document.createElement("div");
+                tabHeader.className = "tab-header text-center mb-4";
+                tabHeader.innerHTML = `
+                <p>Menu</p>
+                <h3>${categoryId.charAt(0).toUpperCase() + categoryId.slice(1)}</h3>
+            `;
+                contentPane.appendChild(tabHeader);
+
+                // Create items grid
+                const itemsRow = document.createElement("div");
+                itemsRow.className = "row gy-4";
+
+                // Add menu items
+                items.forEach((item) => {
+                    const menuItem = document.createElement("div");
+                    menuItem.className = "col-lg-4 col-md-6 menu-item";
+
+                    let imageHtml = '';
+                    if (item.images && item.images.length > 0) {
+                        imageHtml = `
+                        <a href="${item.images[0].url}" class="glightbox">
+                            <img src="${item.images[0].url}" class="menu-img img-fluid" alt="${item.name}">
+                        </a>
+                    `;
+                    }
+
+                    menuItem.innerHTML = `
+                    ${imageHtml}
+                    <div class="menu-content">
+                        <h4>${item.name}</h4>
+                        <p class="ingredients">${item.description}</p>
+                        <p class="price">$${(Math.random() * 20 + 5).toFixed(2)}</p>
+                    </div>
+                `;
+                    itemsRow.appendChild(menuItem);
+                });
+
+                contentPane.appendChild(itemsRow);
+                contentContainer.appendChild(contentPane);
+                firstTab = false;
+            }
+
+            // Initialize GLightbox
+            if (typeof GLightbox !== "undefined") {
+                GLightbox({
+                    selector: ".glightbox",
+                    touchNavigation: true,
+                    loop: true,
+                    autoplayVideos: true
+                });
+            }
+        }
+    });
+</script>
