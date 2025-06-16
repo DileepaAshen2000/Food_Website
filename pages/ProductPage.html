@@ -545,10 +545,10 @@
                 try {
                     document.getElementById('loadingOverlay').style.display = 'flex';
 
-                    const response = await fetch(`http://127.0.0.1:3000/api/foods/${productId}`);
+                    const response = await fetch(`https://mensa-api.onrender.com/api/foods/${productId}`);
                     const result = await response.json();
 
-                    const allFoods = await fetch('http://127.0.0.1:3000/api/foods');
+                    const allFoods = await fetch('https://mensa-api.onrender.com/api/foods');
                     apiResponse = await allFoods.json();
 
                     if (result.status) {

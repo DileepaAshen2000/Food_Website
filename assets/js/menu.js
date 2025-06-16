@@ -50,7 +50,7 @@ class MenuComponent {
     }
 
     fetchCategories() {
-        fetch("http://127.0.0.1:3000/api/category")
+        fetch("https://mensa-api.onrender.com/api/category")
             .then((response) => response.json())
             .then((data) => {
                 if (data.status && data.data && data.data.length > 0) {
@@ -107,7 +107,7 @@ class MenuComponent {
     </div>
   `;
 
-        fetch(`http://127.0.0.1:3000/api/foods/getByCategoryId/${categoryId}`)
+        fetch(`https://mensa-api.onrender.com/api/foods/getByCategoryId/${categoryId}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.status && data.data && data.data.length > 0) {

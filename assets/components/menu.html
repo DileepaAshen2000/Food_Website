@@ -29,7 +29,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     alert('kcfde b')
     // Fetch categories from API
-    fetch('http://127.0.0.1:3000/api/category')
+    fetch('https://mensa-api.onrender.com/api/category')
         .then(response => response.json(),
         console.log('response', JSON.stringify(response, null, 2))
         )
