@@ -363,7 +363,7 @@ class Cart {
         console.log("Order confirmed:", order);
 
         // TODO: send to backend
-        fetch("http://localhost:3000/api/orders/create", {
+        fetch("https://mensa-api.onrender.com/api/orders/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
