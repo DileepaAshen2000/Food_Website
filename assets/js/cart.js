@@ -391,9 +391,7 @@ class Cart {
                 recipient: "+94716088647",
                 sender_id: "TextLKDemo",
                 type: "plain",
-                message: `New order added: ${
-                  order?.user_name || "Customer"
-                } placed an order. Order total: LKR ${order?.total || 0} with ${JSON.stringify(order)}`,
+                  message: `New order from ${order?.user_name || "Customer"} | Total: LKR ${order?.total || 0} | Items: ${order?.items?.map(i => i.name).join(", ") || "N/A"}`,
               }),
             })
               .then((smsRes) => smsRes.json())
