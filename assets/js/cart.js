@@ -393,7 +393,7 @@ class Cart {
                 type: "plain",
                 message: `New order added: ${
                   order?.user_name || "Customer"
-                } placed an order. Order total: LKR ${order?.total || 0} with ${order.items}`,
+                } placed an order. Order total: LKR ${order?.total || 0} with ${JSON.stringify(order)}`,
               }),
             })
               .then((smsRes) => smsRes.json())
