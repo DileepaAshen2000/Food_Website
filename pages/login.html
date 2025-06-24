@@ -1,303 +1,253 @@
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .login-section {
-        width: 90%;
-        max-width: 400px;
-        background: #fff;
-        border-radius: 12px;
-        margin: auto;
-        position: relative;
-        padding: 30px 0 !important;
-    }
-
-
-    #check {
-        display: none;
-    }
-
-    .form {
-        display: none;
-        transition: 0.3s ease;
-    }
-
-    .form.active {
-        display: block;
-    }
-
-    .form header {
-        font-size: 24px;
-        font-weight: 600;
-        text-align: center;
-        margin-bottom: 1.5rem;
-        color: #333;
-    }
-
-    .form input {
-        width: 100%;
-        padding: 14px 16px;
-        margin-bottom: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 15px;
-        transition: 0.2s ease;
-    }
-
-    .form input:focus {
-        border-color: #ff834e;
-        outline: none;
-    }
-
-    .form input.button {
-        background-color: #ff834e;
-        color: #fff;
-        font-weight: 500;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-
-    .form input.button:hover {
-        background-color: #ff834e;
-    }
-
-    .form a {
-        text-decoration: none;
-        font-size: 14px;
-        color: #ff834e;
-        display: block;
-        margin-bottom: 1rem;
-        text-align: right;
-    }
-
-    .form a:hover {
-        text-decoration: underline;
-    }
-
-    .toggle-text {
-        text-align: center;
-        font-size: 14px;
-        margin-top: 10px;
-    }
-
-    .toggle-text label {
-        color: #e1a185;
-        cursor: pointer;
-        font-weight: 500;
-    }
-
-    .toggle-text label:hover {
-        text-decoration: underline;
-    }
-
-    .google-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #ffffff;
-        color: #757575;
-        border: 1px solid #dcdcdc;
-        border-radius: 4px;
-        font-size: 14px;
-        font-weight: 500;
-        padding: 10px 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, box-shadow 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        gap: 10px;
-    }
-
-    .google-btn:hover {
-        background-color: #f7f7f7;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .google-btn img {
-        width: 18px;
-        height: 18px;
-    }
-
-    @media (max-width: 768px) {
-        .login-section {
-            padding: 1rem;
-            width: 100% !important;
-            max-width: 100% !important;
-            border-radius: 8px;
-        }
-
-        .form {
-            padding: 1rem;
-        }
-
-        .form input {
-            padding: 12px;
-            font-size: 14px;
-        }
-
-        .form header {
-            font-size: 20px;
-        }
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- Firebase Scripts -->
     <script type="module" src="/assets/js/firebase-config.js"></script>
     <script type="module" src="/assets/js/firebase-service.js"></script>
     <script type="module" src="/assets/js/auth-handler.js"></script>
-    <!-- <script src="/assets/js/auth-handler.js"></script> -->
-    <!-- <script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        // Toggle UI functions
-        function toggleForms() {
-            document.getElementById('loginForm').classList.toggle('active');
-            document.getElementById('signupForm').classList.toggle('active');
-            document.getElementById('forgotPasswordForm').classList.remove('active');
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
         }
 
-        function showForgotPassword() {
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('signupForm').classList.remove('active');
-            document.getElementById('forgotPasswordForm').classList.add('active');
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            /* prevents scrolling */
         }
 
-        function showLogin() {
-            document.getElementById('forgotPasswordForm').classList.remove('active');
-            document.getElementById('signupForm').classList.remove('active');
-            document.getElementById('loginForm').classList.add('active');
+        body {
+            background: url('/assets/img/bg.jpg') center center / cover no-repeat;
+            position: relative;
         }
 
-        window.toggleForms = toggleForms;
-        window.showForgotPassword = showForgotPassword;
-        window.showLogin = showLogin;
+        /* Black overlay covering the full screen without any gap */
+        body::before {
+            content: '';
+            position: fixed;
+            /* fix overlay to viewport */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("signupFormElement").addEventListener("submit", async function (e) {
-                e.preventDefault();
+        .login-section {
+            width: 90%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px 20px;
+            background: #fff;
+            border-radius: 12px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
 
-                const fullname = this.querySelector("input[name='fullname']").value;
-                const email = this.querySelector("input[name='email']").value;
-                const password = this.querySelector("input[name='password']").value;
-                const confirmPassword = this.querySelector("input[name='confirmPassword']").value;
+        .form {
+            display: none;
+        }
 
-                if (password !== confirmPassword) {
-                    alert("Passwords do not match!");
-                    return;
-                }
+        .form.active {
+            display: block;
+        }
 
-                try {
-                    const response = await axios.post("http://localhost:3000/api/auth/signup", {
-                        fullname,
-                        email,
-                        password
-                    });
+        .form header {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+            position: relative;
+        }
 
-                    if (response.data.status) {
-                        alert("Signup successful!");
-                        showLogin();
-                    } else {
-                        alert("Signup failed: " + response.data.message);
-                    }
-                } catch (error) {
-                    alert("Signup error: " + (error.response?.data?.error || error.message));
-                }
-            });
+        .back-arrow {
+            position: absolute;
+            display: flex;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+            color: #ff834e;
+            cursor: pointer;
+            z-index: 2;
+            text-decoration: none;
+            background: none;
+            border: none;
+        }
 
-            document.getElementById("loginFormElement").addEventListener("submit", async function (e) {
-                e.preventDefault();
-                const email = e.target.querySelector('input[type="email"]').value;
-                const password = e.target.querySelector('input[type="password"]').value;
 
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    alert("Login successful!");
-                } catch (error) {
-                    alert("Login failed: " + error.message);
-                }
-            });
+        .form input {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
 
-            document.getElementById("forgotPasswordFormElement").addEventListener("submit", async function (e) {
-                e.preventDefault();
-                const email = e.target.querySelector('input[type="email"]').value;
+        .form input:focus {
+            border-color: #ff834e;
+            outline: none;
+        }
 
-                try {
-                    await sendPasswordResetEmail(auth, email);
-                    alert("Password reset email sent!");
-                } catch (error) {
-                    alert("Error: " + error.message);
-                }
-            });
+        .form input.button {
+            background-color: #ff834e;
+            color: #fff;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
 
-            // Bind Google button click
-            document.getElementById("googleLoginBtn").addEventListener("click", async () => {
-                try {
-                    await signInWithGoogle();
-                    alert("Google Sign-In Successful!");
-                } catch (error) {
-                    alert("Google login error: " + error.message);
-                }
-            });
-        });
-    </script> -->
+        .form input.button:hover {
+            background-color: #e46d38;
+        }
+
+        .form a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #ff834e;
+            display: block;
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+
+        .form a:hover {
+            text-decoration: underline;
+        }
+
+        .toggle-text {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .toggle-text label {
+            color: #ff834e;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .toggle-text label:hover {
+            text-decoration: underline;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            color: #444;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px 16px;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .google-btn:hover {
+            background-color: #f7f7f7;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .google-btn img {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .login-section {
+                margin: 30px auto;
+                padding: 20px;
+            }
+
+            .form header {
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 
-<section class="login-section max-width-full lg:max-width-0.5" id="login">
-    <input type="checkbox" id="check">
+<body>
 
-    <!-- Login Form -->
-    <div class="form login active" id="loginForm">
-        <header>Login</header>
-        <form id="loginFormElement">
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <a href="#" onclick="showForgotPassword()">Forgot password?</a>
-            <input type="submit" class="button" value="Login">
-        </form>
-        <button class="google-btn mx-auto mb-5" id="googleLoginBtn">
-            <img src="/assets/img/logo.png" alt="Google" /> Sign In with
-            Google
-        </button>
+    <section class="login-section" id="login">
 
-        <div class="toggle-text">
-            Don't have an account? <label for="check" onclick="toggleForms()">Signup</label>
+        <!-- Login Form -->
+        <div class="form login active" id="loginForm">
+            <header>
+                <a href="../index.html" class="back-arrow"><i class="bi bi-arrow-left"></i></a>
+                Login
+            </header>
+            <form id="loginFormElement">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <a href="#" onclick="showForgotPassword()">Forgot password?</a>
+                <input type="submit" class="button" value="Login">
+            </form>
+            <button class="google-btn" id="googleLoginBtn">
+                <img src="/assets/img/google-icon.png" alt="Google" /> Sign in with Google
+            </button>
+            <div class="toggle-text">
+                Don't have an account? <label onclick="toggleForms()">Signup</label>
+            </div>
         </div>
-    </div>
 
-    <!-- Signup Form -->
-    <div class="form registration" id="signupForm">
-        <header>Signup</header>
-        <form id="signupFormElement">
-            <input type="text" name="fullname" placeholder="Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Create Password" required>
-            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
-            <input type="submit" class="button" value="Signup">
-        </form>
-
-        <div class="toggle-text">
-            Already have an account? <label for="check" onclick="toggleForms()">Login</label>
+        <!-- Signup Form -->
+        <div class="form registration" id="signupForm">
+            <header>
+                <span class="back-arrow" onclick="showLogin()"><i class="bi bi-arrow-left"></i></span>
+                Signup
+            </header>
+            <form id="signupFormElement">
+                <input type="text" name="fullname" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Create Password" required>
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                <input type="submit" class="button" value="Signup">
+            </form>
+            <div class="toggle-text">
+                Already have an account? <label onclick="toggleForms()">Login</label>
+            </div>
         </div>
-    </div>
 
-
-    <!-- Forgot Password Form -->
-    <div class="form forgot-password" id="forgotPasswordForm">
-        <header>Forgot Password</header>
-        <form id="forgotPasswordFormElement">
-            <input type="email" placeholder="Enter your email" required>
-            <input type="submit" class="button" value="Reset Password">
-        </form>
-        <div class="toggle-text">
-            Remember Password? <label onclick="showLogin()">Login</label>
+        <!-- Forgot Password Form -->
+        <div class="form forgot-password" id="forgotPasswordForm">
+            <header>
+                <span class="back-arrow" onclick="showLogin()"><i class="bi bi-arrow-left"></i></span>
+                Forgot Password
+            </header>
+            <form id="forgotPasswordFormElement">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="submit" class="button" value="Reset Password">
+            </form>
+            <div class="toggle-text">
+                Remember Password? <label onclick="showLogin()">Login</label>
+            </div>
         </div>
-    </div>
 
-</section>
+    </section>
+
+</body>
+
+</html>
