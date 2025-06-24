@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const result = await signUpWithEmail(email, password, fullname);
-    if (result.success) {
+    if (result.user) {
       alert("Signup successful! You can now login.");
       showLogin();
     } else {
-      alert("Signup error: " + result.error);
+      alert("Signup error: " + JSON.stringify(result.error));
     }
   });
 
