@@ -478,7 +478,7 @@
                         return;
                     }
 
-                    fetch(`http://localhost:3000/api/orders/getByUserId/${userId}`)
+                    fetch(`https://mensa-api.onrender.com/api/orders/getByUserId/${userId}`)
                         .then(response => response.json())
                         .then(data => {
                             loadingElement.classList.add('d-none');

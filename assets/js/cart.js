@@ -3,7 +3,6 @@ import {
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-
 class Cart {
   constructor() {
     this.cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -363,7 +362,7 @@ class Cart {
         console.log("Order confirmed:", order);
 
         // TODO: send to backend
-        fetch("http://localhost:3000/api/orders/create", {
+        fetch("https://mensa-api.onrender.com/api/orders/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -371,7 +370,7 @@ class Cart {
           body: JSON.stringify(order),
         })
           .then((response) => {
-            if (!response.status) {
+            if (!response.ok) {
               throw new Error("Failed to place order");
             }
             return response.json();
@@ -379,17 +378,42 @@ class Cart {
           .then((data) => {
             console.log("Order saved to backend:", data);
 
-            this.showAlert("Order confirmed successfully!", "success");
+            // Send SMS to admin
+            fetch("https://app.text.lk/api/v3/sms/send", {
+              method: "POST",
+              headers: {
+                Authorization:
+                  "Bearer 899|6rcv4wPhYWMGJqVRJ9LDWYxLp3zbHmihMV4TY9Fm1b006502",
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({
+                recipient: "+94716088647",
+                sender_id: "TextLKDemo",
+                type: "plain",
+                  message: `New order from ${order?.user_name || "Customer"} | Total: LKR ${order?.total || 0} | Items: ${order?.items?.map(i => i.name).join(", ") || "N/A"}`,
+              }),
+            })
+              .then((smsRes) => smsRes.json())
+              .then((smsData) => {
+                console.log("SMS sent:", smsData);
+              })
+              .catch((smsErr) => {
+                console.error("Failed to send SMS:", smsErr);
+              });
+
+            // Show success
             Swal.fire({
               toast: true,
               position: "top-end",
               icon: "success",
-              title: 'Order added successfully.',
+              title: "Order added successfully.",
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
-            })
+            });
 
+            // Clear cart and close modals
             this.cart = [];
             this.saveCart();
             this.renderCartItems();
@@ -406,19 +430,15 @@ class Cart {
           })
           .catch((error) => {
             console.error("Error placing order:", error);
-            this.showAlert(
-              "Failed to place order. Please try again.",
-              "danger"
-            );
             Swal.fire({
               toast: true,
               position: "top-end",
               icon: "error",
-              title: 'Failed to place order. Please try again.',
+              title: "Failed to place order. Please try again.",
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
-            })
+            });
           });
       } else {
         this.showAlert("You must be logged in to confirm an order.", "danger");
